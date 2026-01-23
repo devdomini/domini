@@ -21,6 +21,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'telephone',
+        'id_entreprise',
+        'num_box',
+        'is_active',
     ];
 
     /**
@@ -43,6 +48,24 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
         ];
+    }
+
+    /**
+     * Relation avec l'entreprise (ancienne, à garder pour compatibilité)
+     */
+    public function entreprise()
+    {
+        return $this->belongsTo(Entreprise::class, 'id_entreprise');
+    }
+
+    /**
+     * Relation many-to-many avec les entreprises (nouvelle)
+     */
+    public function entreprises()
+    {
+        return $this->belongsToMany(Entreprise::class, 'entreprise_livreur', 'user_id', 'entreprise_id')
+                    ->withTimestamps();
     }
 }
