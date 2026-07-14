@@ -8,13 +8,13 @@
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
         <!-- Total Employés -->
         <div style="background: white; border-radius: 16px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); position: relative; overflow: hidden;">
-            <div style="position: absolute; top: -20px; right: -20px; width: 100px; height: 100px; background: linear-gradient(135deg, #D9542A, #c13d18); opacity: 0.1; border-radius: 50%;"></div>
+            <div style="position: absolute; top: -20px; right: -20px; width: 100px; height: 100px; background: linear-gradient(135deg, #FF0000, #CC0000); opacity: 0.1; border-radius: 50%;"></div>
             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
                 <div>
                     <div style="font-size: 0.875rem; color: #666; font-weight: 500;">Total Employés</div>
-                    <div style="font-size: 2.5rem; font-weight: 900; color: #D9542A; margin-top: 0.5rem;">{{ number_format($stats['total_employes']) }}</div>
+                    <div style="font-size: 2.5rem; font-weight: 900; color: #FF0000; margin-top: 0.5rem;">{{ number_format($stats['total_employes']) }}</div>
                 </div>
-                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #D9542A, #c13d18); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #FF0000, #CC0000); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
                     <svg style="width: 24px; height: 24px; color: white;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
                     </svg>
@@ -32,13 +32,13 @@
 
         <!-- Commandes Aujourd'hui -->
         <div style="background: white; border-radius: 16px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); position: relative; overflow: hidden;">
-            <div style="position: absolute; top: -20px; right: -20px; width: 100px; height: 100px; background: linear-gradient(135deg, #F7B801, #e5a900); opacity: 0.1; border-radius: 50%;"></div>
+            <div style="position: absolute; top: -20px; right: -20px; width: 100px; height: 100px; background: linear-gradient(135deg, #CC0000, #990000); opacity: 0.1; border-radius: 50%;"></div>
             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
                 <div>
                     <div style="font-size: 0.875rem; color: #666; font-weight: 500;">Commandes Aujourd'hui</div>
-                    <div style="font-size: 2.5rem; font-weight: 900; color: #F7B801; margin-top: 0.5rem;">{{ $stats['commandes_aujourd_hui'] }}</div>
+                    <div style="font-size: 2.5rem; font-weight: 900; color: #CC0000; margin-top: 0.5rem;">{{ $stats['commandes_aujourd_hui'] }}</div>
                 </div>
-                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #F7B801, #e5a900); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #CC0000, #990000); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
                     <svg style="width: 24px; height: 24px; color: white;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                     </svg>
@@ -76,13 +76,13 @@
 
         <!-- Chiffre d'Affaires -->
         <div style="background: white; border-radius: 16px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); position: relative; overflow: hidden;">
-            <div style="position: absolute; top: -20px; right: -20px; width: 100px; height: 100px; background: linear-gradient(135deg, #3A3A3A, #2A2A2A); opacity: 0.1; border-radius: 50%;"></div>
+            <div style="position: absolute; top: -20px; right: -20px; width: 100px; height: 100px; background: linear-gradient(135deg, #1A1A1A, #000000); opacity: 0.1; border-radius: 50%;"></div>
             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
                 <div>
                     <div style="font-size: 0.875rem; color: #666; font-weight: 500;">Chiffre d'Affaires</div>
-                    <div style="font-size: 1.75rem; font-weight: 900; color: #3A3A3A; margin-top: 0.5rem;">{{ number_format($stats['chiffre_affaires'], 0, ',', ' ') }} <span style="font-size: 1rem;">FCFA</span></div>
+                    <div style="font-size: 1.75rem; font-weight: 900; color: #000000; margin-top: 0.5rem;">{{ number_format($stats['chiffre_affaires'], 0, ',', ' ') }} <span style="font-size: 1rem;">FCFA</span></div>
                 </div>
-                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #3A3A3A, #2A2A2A); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #1A1A1A, #000000); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
                     <svg style="width: 24px; height: 24px; color: white;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
@@ -103,7 +103,7 @@
 
         <div class="card-body" style="padding: 1.5rem;">
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-                <a href="{{ route('admin.commandes.index') }}" style="display: flex; align-items: center; gap: 1rem; padding: 1.25rem; background: linear-gradient(135deg, #D9542A, #c13d18); color: white; border-radius: 12px; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                <a href="{{ route('admin.commandes.index') }}" style="display: flex; align-items: center; gap: 1rem; padding: 1.25rem; background: linear-gradient(135deg, #FF0000, #CC0000); color: white; border-radius: 12px; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
                     <div style="width: 48px; height: 48px; background: rgba(255,255,255,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
                         <svg style="width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
@@ -115,7 +115,7 @@
                     </div>
                 </a>
 
-                <a href="{{ route('admin.menu.plats.index') }}" style="display: flex; align-items: center; gap: 1rem; padding: 1.25rem; background: linear-gradient(135deg, #F7B801, #e5a900); color: white; border-radius: 12px; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                <a href="{{ route('admin.menu.plats.index') }}" style="display: flex; align-items: center; gap: 1rem; padding: 1.25rem; background: linear-gradient(135deg, #CC0000, #990000); color: white; border-radius: 12px; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
                     <div style="width: 48px; height: 48px; background: rgba(255,255,255,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
                         <svg style="width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
@@ -139,7 +139,7 @@
                     </div>
                 </a>
 
-                <a href="{{ route('admin.livraisons.index') }}" style="display: flex; align-items: center; gap: 1rem; padding: 1.25rem; background: linear-gradient(135deg, #3A3A3A, #2A2A2A); color: white; border-radius: 12px; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                <a href="{{ route('admin.livraisons.index') }}" style="display: flex; align-items: center; gap: 1rem; padding: 1.25rem; background: linear-gradient(135deg, #1A1A1A, #000000); color: white; border-radius: 12px; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
                     <div style="width: 48px; height: 48px; background: rgba(255,255,255,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
                         <svg style="width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"></path>
@@ -183,7 +183,10 @@
         <!-- Evolution des commandes (7 derniers jours) -->
         <div class="card" style="background: white; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
             <div class="card-header" style="padding: 1.5rem; border-bottom: 1px solid #E5E5E5;">
-                <h3 style="font-size: 1.125rem; font-weight: 700; color: #3A3A3A; margin: 0;">📈 Évolution des Commandes (7 jours)</h3>
+                <h3 style="font-size: 1.125rem; font-weight: 700; color: #000000; margin: 0; display: flex; align-items: center; gap: 0.5rem;">
+                    @include('admin.partials.icon', ['name' => 'chart-line', 'size' => 20])
+                    Évolution des Commandes (7 jours)
+                </h3>
             </div>
             <div class="card-body" style="padding: 1.5rem;">
                 <canvas id="commandesChart" style="max-height: 300px;"></canvas>
@@ -193,7 +196,10 @@
         <!-- Répartition par statut (Donut) -->
         <div class="card" style="background: white; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
             <div class="card-header" style="padding: 1.5rem; border-bottom: 1px solid #E5E5E5;">
-                <h3 style="font-size: 1.125rem; font-weight: 700; color: #3A3A3A; margin: 0;">🍩 Répartition des Commandes</h3>
+                <h3 style="font-size: 1.125rem; font-weight: 700; color: #000000; margin: 0; display: flex; align-items: center; gap: 0.5rem;">
+                    @include('admin.partials.icon', ['name' => 'chart-pie', 'size' => 20])
+                    Répartition des Commandes
+                </h3>
             </div>
             <div class="card-body" style="padding: 1.5rem; display: flex; justify-content: center;">
                 <canvas id="statutsChart" style="max-height: 300px; max-width: 300px;"></canvas>
@@ -206,7 +212,10 @@
         <!-- Top Entreprises (Bar Chart) -->
         <div class="card" style="background: white; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
             <div class="card-header" style="padding: 1.5rem; border-bottom: 1px solid #E5E5E5;">
-                <h3 style="font-size: 1.125rem; font-weight: 700; color: #3A3A3A; margin: 0;">📊 Top 10 Entreprises (Nombre de Commandes)</h3>
+                <h3 style="font-size: 1.125rem; font-weight: 700; color: #000000; margin: 0; display: flex; align-items: center; gap: 0.5rem;">
+                    @include('admin.partials.icon', ['name' => 'chart-bar', 'size' => 20])
+                    Top 10 Entreprises (Nombre de Commandes)
+                </h3>
             </div>
             <div class="card-body" style="padding: 1.5rem;">
                 <canvas id="entreprisesChart" style="max-height: 350px;"></canvas>
@@ -229,15 +238,15 @@
             <!-- Panier moyen -->
             <div class="card" style="background: white; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 1.5rem;">
                 <div style="font-size: 0.875rem; color: #666; margin-bottom: 0.5rem;">Panier Moyen</div>
-                <div style="font-size: 2rem; font-weight: 900; color: #D9542A;">{{ number_format($stats['panier_moyen'], 0, ',', ' ') }} <span style="font-size: 1rem; color: #666;">FCFA</span></div>
+                <div style="font-size: 2rem; font-weight: 900; color: #FF0000;">{{ number_format($stats['panier_moyen'], 0, ',', ' ') }} <span style="font-size: 1rem; color: #666;">FCFA</span></div>
             </div>
 
             <!-- Livreurs actifs -->
             <div class="card" style="background: white; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 1.5rem;">
                 <div style="font-size: 0.875rem; color: #666; margin-bottom: 0.5rem;">Livreurs Actifs</div>
                 <div style="display: flex; align-items: center; justify-content: space-between;">
-                    <div style="font-size: 2rem; font-weight: 900; color: #F7B801;">{{ $stats['livreurs_actifs'] }}</div>
-                    <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #F7B801, #e5a900); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                    <div style="font-size: 2rem; font-weight: 900; color: #CC0000;">{{ $stats['livreurs_actifs'] }}</div>
+                    <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #CC0000, #990000); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
                         <svg style="width: 24px; height: 24px; color: white;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"></path>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"></path>
@@ -259,10 +268,10 @@
 <script>
 // Configuration des couleurs Domini
 const dominiColors = {
-    primary: '#D9542A',
-    secondary: '#F7B801',
+    primary: '#FF0000',
+    secondary: '#CC0000',
     success: '#10B981',
-    dark: '#3A3A3A',
+    dark: '#000000',
     gray: '#666666'
 };
 

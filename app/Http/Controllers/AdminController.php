@@ -14,8 +14,10 @@ class AdminController extends Controller
     public function showLoginForm()
     {
         // Si déjà connecté, rediriger vers le dashboard
-        if (Auth::check() && Auth::user()->role === 'admin') {
-            return redirect()->route('admin.dashboard');
+        if (Auth::check()) {
+            return redirect()->route(
+                Auth::user()->role === 'commercial' ? 'commercial.dashboard' : 'admin.dashboard'
+            );
         }
 
         return view('admin.login');
@@ -41,15 +43,17 @@ class AdminController extends Controller
         // Tenter la connexion
         if (Auth::attempt($credentials, $remember)) {
             // Vérifier que l'utilisateur est un admin
-            if (Auth::user()->role === 'admin') {
+            $role = Auth::user()->role;
+            if (in_array($role, ['admin', 'commercial'], true)) {
                 $request->session()->regenerate();
-                
-                return redirect()->intended(route('admin.dashboard'))
+                $route = $role === 'commercial' ? 'commercial.dashboard' : 'admin.dashboard';
+
+                return redirect()->intended(route($route))
                     ->with('success', 'Bienvenue ' . Auth::user()->name . ' !');
-            } else {
-                Auth::logout();
-                return back()->with('error', 'Vous n\'avez pas les permissions d\'accès à cette zone.');
             }
+
+            Auth::logout();
+            return back()->with('error', 'Vous n\'avez pas les permissions d\'accès à cette zone.');
         }
 
         return back()

@@ -2,27 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Entreprise;
+use App\Models\User;
+use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class LivreurController extends Controller
 {
+    private const LIVREUR_TYPES = ['classique', 'entreprise'];
+    private const ACTIVE_STATUSES = ['assignee', 'en_cours'];
+
     /**
      * Display a listing of livreurs.
      */
     public function index(Request $request)
     {
-        $query = User::where('role', 'livreur')->with(['entreprise', 'entreprises']);
+        $query = User::where('role', 'livreur')->with(['entreprise', 'entreprises', 'warehouse']);
 
         // Filtres
         if ($request->has('search') && $request->search != '') {
             $search = $request->search;
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%")
-                  ->orWhere('telephone', 'like', "%{$search}%");
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('telephone', 'like', "%{$search}%");
             });
         }
 
@@ -31,9 +35,35 @@ class LivreurController extends Controller
         }
 
         if ($request->has('entreprise') && $request->entreprise != '') {
-            $query->whereHas('entreprises', function($q) use ($request) {
+            $query->whereHas('entreprises', function ($q) use ($request) {
                 $q->where('entreprises.id', $request->entreprise);
             });
+        }
+
+        if ($request->filled('type_livreur') && in_array($request->type_livreur, self::LIVREUR_TYPES, true)) {
+            $query->where('type_livreur', $request->type_livreur);
+        }
+
+        // Dispo = pas de livraisons actives (assignee/en_cours)
+        if ($request->filled('dispo')) {
+            if ($request->dispo === '1') {
+                $query->whereDoesntHave('livraisons', function ($q) {
+                    $q->whereIn('statut', self::ACTIVE_STATUSES);
+                });
+            } elseif ($request->dispo === '0') {
+                $query->whereHas('livraisons', function ($q) {
+                    $q->whereIn('statut', self::ACTIVE_STATUSES);
+                });
+            }
+        }
+
+        // Disponibilité déclarée dans l’app mobile (is_dispo)
+        if ($request->filled('dispo_app')) {
+            if ($request->dispo_app === '1') {
+                $query->where('is_dispo', true);
+            } elseif ($request->dispo_app === '0') {
+                $query->where('is_dispo', false);
+            }
         }
 
         $livreurs = $query->orderBy('created_at', 'desc')->paginate(10);
@@ -52,7 +82,9 @@ class LivreurController extends Controller
     public function create()
     {
         $entreprises = Entreprise::where('statut', true)->orderBy('nom')->get();
-        return view('admin.livreurs.create', compact('entreprises'));
+        $warehouses = Warehouse::where('is_active', true)->orderBy('name')->get();
+
+        return view('admin.livreurs.create', compact('entreprises', 'warehouses'));
     }
 
     /**
@@ -66,6 +98,8 @@ class LivreurController extends Controller
             'telephone' => 'required|string|max:20',
             'password' => 'required|string|min:6',
             'id_entreprise' => 'nullable|exists:entreprises,id',
+            'warehouse_id' => 'nullable|exists:warehouses,id',
+            'type_livreur' => 'nullable|in:classique,entreprise',
             'is_active' => 'nullable|boolean',
         ], [
             'name.required' => 'Le nom est obligatoire.',
@@ -84,7 +118,12 @@ class LivreurController extends Controller
             'password' => Hash::make($validated['password']),
             'role' => 'livreur',
             'id_entreprise' => $validated['id_entreprise'] ?? null,
+            'warehouse_id' => $validated['warehouse_id'] ?? null,
+            'type_livreur' => $validated['type_livreur'] ?? null,
             'is_active' => $request->has('is_active') ? true : false,
+            'telephone_verified_at' => now(),
+            'code_verification' => null,
+            'code_expires_at' => null,
         ]);
 
         return redirect()->route('admin.livreurs.index')
@@ -96,8 +135,8 @@ class LivreurController extends Controller
      */
     public function show($id)
     {
-        $livreur = User::where('role', 'livreur')->with(['entreprise', 'entreprises'])->findOrFail($id);
-        
+        $livreur = User::where('role', 'livreur')->with(['entreprise', 'entreprises', 'warehouse'])->findOrFail($id);
+
         // Statistiques du livreur (à implémenter avec les commandes plus tard)
         $stats = [
             'livraisons_total' => 0,
@@ -118,8 +157,9 @@ class LivreurController extends Controller
     {
         $livreur = User::where('role', 'livreur')->findOrFail($id);
         $entreprises = Entreprise::where('statut', true)->orderBy('nom')->get();
-        
-        return view('admin.livreurs.edit', compact('livreur', 'entreprises'));
+        $warehouses = Warehouse::orderBy('name')->get();
+
+        return view('admin.livreurs.edit', compact('livreur', 'entreprises', 'warehouses'));
     }
 
     /**
@@ -131,9 +171,11 @@ class LivreurController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $id,
+            'email' => 'required|email|unique:users,email,'.$id,
             'telephone' => 'required|string|max:20',
             'id_entreprise' => 'nullable|exists:entreprises,id',
+            'warehouse_id' => 'nullable|exists:warehouses,id',
+            'type_livreur' => 'nullable|in:classique,entreprise',
             'is_active' => 'nullable|boolean',
         ], [
             'name.required' => 'Le nom est obligatoire.',
@@ -148,6 +190,8 @@ class LivreurController extends Controller
             'email' => $validated['email'],
             'telephone' => $validated['telephone'],
             'id_entreprise' => $validated['id_entreprise'] ?? null,
+            'warehouse_id' => $validated['warehouse_id'] ?? null,
+            'type_livreur' => $validated['type_livreur'] ?? null,
             'is_active' => $request->has('is_active') ? true : false,
         ]);
 
@@ -161,9 +205,9 @@ class LivreurController extends Controller
     public function toggleStatus($id)
     {
         $livreur = User::where('role', 'livreur')->findOrFail($id);
-        
+
         $livreur->update([
-            'is_active' => !$livreur->is_active
+            'is_active' => ! $livreur->is_active,
         ]);
 
         return redirect()->back()
@@ -190,8 +234,9 @@ class LivreurController extends Controller
         $livreur->entreprises()->sync($validated['entreprises']);
 
         $count = count($validated['entreprises']);
+
         return redirect()->back()
-            ->with('success', $count . ' entreprise(s) affectée(s) avec succès.');
+            ->with('success', $count.' entreprise(s) affectée(s) avec succès.');
     }
 
     /**
@@ -200,7 +245,7 @@ class LivreurController extends Controller
     public function removeEntreprise(Request $request, $id)
     {
         $livreur = User::where('role', 'livreur')->findOrFail($id);
-        
+
         $validated = $request->validate([
             'entreprise_id' => 'required|exists:entreprises,id',
         ]);
@@ -217,7 +262,7 @@ class LivreurController extends Controller
     public function removeAllEntreprises($id)
     {
         $livreur = User::where('role', 'livreur')->findOrFail($id);
-        
+
         $livreur->entreprises()->detach();
 
         return redirect()->back()
@@ -230,6 +275,7 @@ class LivreurController extends Controller
     public function changePassword($id)
     {
         $livreur = User::where('role', 'livreur')->findOrFail($id);
+
         return view('admin.livreurs.change-password', compact('livreur'));
     }
 
@@ -249,7 +295,7 @@ class LivreurController extends Controller
         ]);
 
         $livreur->update([
-            'password' => Hash::make($validated['password'])
+            'password' => Hash::make($validated['password']),
         ]);
 
         return redirect()->route('admin.livreurs.index')

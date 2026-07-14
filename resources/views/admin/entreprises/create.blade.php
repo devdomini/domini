@@ -7,7 +7,7 @@
     <div style="max-width: 900px;">
         <!-- Back Button -->
         <div style="margin-bottom: 2rem;">
-            <a href="{{ route('admin.entreprises.index') }}" style="color: #D9542A; text-decoration: none; font-weight: 600;">
+            <a href="{{ route('admin.entreprises.index') }}" style="color: #FF0000; text-decoration: none; font-weight: 600;">
                 ← Retour à la liste
             </a>
         </div>
@@ -24,8 +24,8 @@
                     <div style="display: grid; gap: 1.5rem;">
                         <!-- Nom -->
                         <div>
-                            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #3A3A3A;">
-                                Nom de l'entreprise <span style="color: #D9542A;">*</span>
+                            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #000000;">
+                                Nom de l'entreprise <span style="color: #FF0000;">*</span>
                             </label>
                             <input 
                                 type="text" 
@@ -36,14 +36,14 @@
                                 required
                             >
                             @error('nom')
-                                <span style="color: #C62828; font-size: 0.75rem; margin-top: 0.25rem; display: block;">{{ $message }}</span>
+                                <span style="color: #CC0000; font-size: 0.75rem; margin-top: 0.25rem; display: block;">{{ $message }}</span>
                             @enderror
                         </div>
 
                         <!-- Adresse -->
                         <div>
-                            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #3A3A3A;">
-                                Adresse complète <span style="color: #D9542A;">*</span>
+                            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #000000;">
+                                Adresse complète <span style="color: #FF0000;">*</span>
                             </label>
                             <textarea 
                                 name="adresse" 
@@ -53,15 +53,15 @@
                                 required
                             >{{ old('adresse') }}</textarea>
                             @error('adresse')
-                                <span style="color: #C62828; font-size: 0.75rem; margin-top: 0.25rem; display: block;">{{ $message }}</span>
+                                <span style="color: #CC0000; font-size: 0.75rem; margin-top: 0.25rem; display: block;">{{ $message }}</span>
                             @enderror
                         </div>
 
                         <!-- Ville et Pays -->
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                             <div>
-                                <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #3A3A3A;">
-                                    Ville <span style="color: #D9542A;">*</span>
+                                <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #000000;">
+                                    Ville <span style="color: #FF0000;">*</span>
                                 </label>
                                 <select 
                                     name="ville" 
@@ -77,12 +77,12 @@
                                     <option value="San-Pédro" {{ old('ville') == 'San-Pédro' ? 'selected' : '' }}>San-Pédro</option>
                                 </select>
                                 @error('ville')
-                                    <span style="color: #C62828; font-size: 0.75rem; margin-top: 0.25rem; display: block;">{{ $message }}</span>
+                                    <span style="color: #CC0000; font-size: 0.75rem; margin-top: 0.25rem; display: block;">{{ $message }}</span>
                                 @enderror
                             </div>
 
                             <div>
-                                <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #3A3A3A;">
+                                <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #000000;">
                                     Pays
                                 </label>
                                 <input 
@@ -92,14 +92,14 @@
                                     style="width: 100%; padding: 0.75rem; border: 2px solid #E5E5E5; border-radius: 8px; font-size: 1rem;"
                                 >
                                 @error('pays')
-                                    <span style="color: #C62828; font-size: 0.75rem; margin-top: 0.25rem; display: block;">{{ $message }}</span>
+                                    <span style="color: #CC0000; font-size: 0.75rem; margin-top: 0.25rem; display: block;">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
 
                         <!-- Numéro -->
                         <div>
-                            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #3A3A3A;">
+                            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #000000;">
                                 Numéro de téléphone
                             </label>
                             <input 
@@ -110,51 +110,97 @@
                                 placeholder="Ex: +225 27 20 00 00 00"
                             >
                             @error('numero')
-                                <span style="color: #C62828; font-size: 0.75rem; margin-top: 0.25rem; display: block;">{{ $message }}</span>
+                                <span style="color: #CC0000; font-size: 0.75rem; margin-top: 0.25rem; display: block;">{{ $message }}</span>
                             @enderror
                         </div>
 
                         <!-- Coordonnées GPS -->
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                             <div>
-                                <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #3A3A3A;">
+                                <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #000000;">
                                     Latitude
                                 </label>
                                 <input 
-                                    type="number" 
-                                    step="0.00000001"
+                                    type="text" 
+                                    inputmode="decimal"
                                     name="lat" 
                                     value="{{ old('lat') }}"
+                                    placeholder="ex. 5.3546081"
                                     style="width: 100%; padding: 0.75rem; border: 2px solid #E5E5E5; border-radius: 8px; font-size: 1rem;"
                                     placeholder="Ex: 5.316667"
                                 >
                                 @error('lat')
-                                    <span style="color: #C62828; font-size: 0.75rem; margin-top: 0.25rem; display: block;">{{ $message }}</span>
+                                    <span style="color: #CC0000; font-size: 0.75rem; margin-top: 0.25rem; display: block;">{{ $message }}</span>
                                 @enderror
                             </div>
 
                             <div>
-                                <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #3A3A3A;">
+                                <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #000000;">
                                     Longitude
                                 </label>
                                 <input 
-                                    type="number" 
-                                    step="0.00000001"
+                                    type="text" 
+                                    inputmode="decimal"
                                     name="long" 
                                     value="{{ old('long') }}"
+                                    placeholder="ex. -3.9814236"
                                     style="width: 100%; padding: 0.75rem; border: 2px solid #E5E5E5; border-radius: 8px; font-size: 1rem;"
                                     placeholder="Ex: -4.033333"
                                 >
                                 @error('long')
-                                    <span style="color: #C62828; font-size: 0.75rem; margin-top: 0.25rem; display: block;">{{ $message }}</span>
+                                    <span style="color: #CC0000; font-size: 0.75rem; margin-top: 0.25rem; display: block;">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
                         <small style="color: #666; font-size: 0.75rem; margin-top: -1rem;">Les coordonnées GPS sont optionnelles mais utiles pour la géolocalisation</small>
 
+                        <!-- Commercial responsable -->
+                        <div>
+                            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #000000;">
+                                Commercial responsable
+                            </label>
+                            <select
+                                name="commercial_id"
+                                style="width: 100%; padding: 0.75rem; border: 2px solid #E5E5E5; border-radius: 8px; font-size: 1rem;"
+                            >
+                                <option value="">— Non assigné —</option>
+                                @foreach($commerciaux as $commercial)
+                                    <option value="{{ $commercial->id }}" {{ old('commercial_id') == $commercial->id ? 'selected' : '' }}>
+                                        {{ $commercial->name }} ({{ $commercial->email }})
+                                    </option>
+                                @endforeach
+                            </select>
+                            <small style="color: #666; font-size: 0.75rem;">Permet au commercial de voir l'entreprise, ses employés et leurs messages.</small>
+                            @error('commercial_id')
+                                <span style="color: #CC0000; font-size: 0.75rem; margin-top: 0.25rem; display: block;">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <!-- Commune (liée à un entrepôt) -->
+                        <div>
+                            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #000000;">
+                                Commune (trajets / livraison entreprise)
+                            </label>
+                            <select
+                                name="commune_id"
+                                style="width: 100%; padding: 0.75rem; border: 2px solid #E5E5E5; border-radius: 8px; font-size: 1rem;"
+                            >
+                                <option value="">— Aucune —</option>
+                                @foreach($communes as $c)
+                                    <option value="{{ $c->id }}" {{ old('commune_id') == $c->id ? 'selected' : '' }}>
+                                        {{ $c->nom }} @if($c->warehouse) ({{ $c->warehouse->name }}) @endif
+                                    </option>
+                                @endforeach
+                            </select>
+                            <small style="color: #666; font-size: 0.75rem;">Créez les communes sous <strong>Communes</strong> si la liste est vide.</small>
+                            @error('commune_id')
+                                <span style="color: #CC0000; font-size: 0.75rem; margin-top: 0.25rem; display: block;">{{ $message }}</span>
+                            @enderror
+                        </div>
+
                         <!-- Logo -->
                         <div>
-                            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #3A3A3A;">
+                            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #000000;">
                                 Logo de l'entreprise
                             </label>
                             <input 
@@ -165,7 +211,7 @@
                             >
                             <small style="color: #666; font-size: 0.75rem;">Format accepté: JPG, PNG (Max 2MB)</small>
                             @error('logo')
-                                <span style="color: #C62828; font-size: 0.75rem; margin-top: 0.25rem; display: block;">{{ $message }}</span>
+                                <span style="color: #CC0000; font-size: 0.75rem; margin-top: 0.25rem; display: block;">{{ $message }}</span>
                             @enderror
                         </div>
 
@@ -173,7 +219,7 @@
                         <div>
                             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
                                 <input type="checkbox" name="statut" value="1" checked style="width: 18px; height: 18px;">
-                                <span style="font-weight: 600; color: #3A3A3A;">Entreprise active</span>
+                                <span style="font-weight: 600; color: #000000;">Entreprise active</span>
                             </label>
                             <small style="color: #666; font-size: 0.75rem;">Une entreprise active peut recevoir des commandes</small>
                         </div>

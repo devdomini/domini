@@ -6,25 +6,29 @@
 
         <title>Domini - Livraison de Repas en Entreprise</title>
 
-        <!-- Fonts -->
+        <!-- Fonts : variable font (1 fichier) + chargement non bloquant -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..900&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..900&display=swap"></noscript>
+
+        {{-- Image LCP probable : première grande photo sous le hero --}}
+        <link rel="preload" as="image" href="{{ asset('diverse-team-chefs-making-meal-preparations-with-ingredients-cooking-delicious-gourmet-dish-restaurant-kitchen-people-uniform-working-as-cooks-preparing-gastronomy-food-recipe.jpg') }}">
 
         <style>
             :root {
-                --primary: #D9542A;
-                --primary-dark: #c13d18;
-                --secondary: #F7B801;
-                --dark: #1A1A1A;
-                --dark-light: #2C2C2C;
+                --primary: #FF0000;
+                --primary-dark: #CC0000;
+                --secondary: #000000;
+                --dark: #000000;
+                --dark-light: #1A1A1A;
                 --gray: #5A5A5A;
-                --light: #F5F5F5;
+                --light: #FFFFFF;
                 --white: #FFFFFF;
                 --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
                 --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
                 --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.12);
-                --shadow-primary: 0 8px 32px rgba(217, 84, 42, 0.25);
+                --shadow-primary: 0 8px 32px rgba(255, 0, 0, 0.25);
                 --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
                 --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                 --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -107,7 +111,7 @@
             }
 
             .language-selector:hover {
-                background-color: rgba(217, 84, 42, 0.08);
+                background-color: rgba(255, 0, 0, 0.08);
                 color: var(--primary);
             }
 
@@ -179,7 +183,7 @@
             }
 
             .menu-icon:hover {
-                background-color: rgba(217, 84, 42, 0.08);
+                background-color: rgba(255, 0, 0, 0.08);
             }
 
             .menu-icon span {
@@ -223,7 +227,7 @@
                 right: -20%;
                 width: 80%;
                 height: 150%;
-                background: radial-gradient(ellipse at center, rgba(217, 84, 42, 0.03) 0%, transparent 70%);
+                background: radial-gradient(ellipse at center, rgba(255, 0, 0, 0.03) 0%, transparent 70%);
                 pointer-events: none;
             }
 
@@ -247,7 +251,7 @@
 
             .food-icon svg {
                 color: var(--primary);
-                filter: drop-shadow(0 4px 8px rgba(217, 84, 42, 0.1));
+                filter: drop-shadow(0 4px 8px rgba(255, 0, 0, 0.1));
             }
 
             @keyframes float {
@@ -328,7 +332,7 @@
                 display: inline-flex;
                 align-items: center;
                 gap: 0.5rem;
-                box-shadow: 0 4px 16px rgba(217, 84, 42, 0.25);
+                box-shadow: 0 4px 16px rgba(255, 0, 0, 0.25);
                 position: relative;
                 overflow: hidden;
             }
@@ -346,7 +350,7 @@
 
             .btn-primary:hover {
                 transform: translateY(-3px);
-                box-shadow: 0 8px 28px rgba(217, 84, 42, 0.35);
+                box-shadow: 0 8px 28px rgba(255, 0, 0, 0.35);
             }
 
             .btn-primary:hover::before {
@@ -650,7 +654,7 @@
             }
 
             .btn-primary:hover {
-                box-shadow: 0 12px 35px rgba(217, 84, 42, 0.5);
+                box-shadow: 0 12px 35px rgba(255, 0, 0, 0.5);
             }
 
             .btn-secondary:hover {
@@ -795,7 +799,7 @@
 
             /* Effet de gradient animé sur l'impact section */
             .impact-section {
-                background: linear-gradient(135deg, #D9542A 0%, #c13d18 100%);
+                background: linear-gradient(135deg, #FF0000 0%, #CC0000 100%);
                 background-size: 200% 200%;
                 animation: gradientShift 15s ease infinite;
             }
@@ -821,7 +825,7 @@
                 left: 0;
                 width: 0;
                 height: 2px;
-                background-color: #D9542A;
+                background-color: #FF0000;
                 transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             }
 
@@ -1021,12 +1025,12 @@
                 transition: var(--transition-normal);
                 align-self: flex-start;
                 font-size: 0.9rem;
-                box-shadow: 0 4px 12px rgba(217, 84, 42, 0.3);
+                box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
             }
 
             .service-card-btn:hover {
                 transform: translateY(-2px);
-                box-shadow: 0 8px 20px rgba(217, 84, 42, 0.4);
+                box-shadow: 0 8px 20px rgba(255, 0, 0, 0.4);
             }
 
             .service-card-btn.white {
@@ -1038,7 +1042,7 @@
             .service-card-btn.white:hover {
                 background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
                 color: white;
-                box-shadow: 0 8px 20px rgba(217, 84, 42, 0.4);
+                box-shadow: 0 8px 20px rgba(255, 0, 0, 0.4);
             }
 
             .service-card.dark .service-card-overlay {
@@ -1248,7 +1252,7 @@
             }
 
             .impact-link {
-                color: var(--secondary);
+                color: var(--primary);
                 text-decoration: none;
                 font-weight: 600;
                 font-size: 1rem;
@@ -1322,20 +1326,20 @@
                 width: 10px;
                 height: 10px;
                 border-radius: 50%;
-                background-color: rgba(247, 184, 1, 0.4);
+                background-color: rgba(255, 0, 0, 0.4);
                 cursor: pointer;
                 transition: var(--transition-normal);
             }
 
             .impact-dot:hover {
-                background-color: rgba(247, 184, 1, 0.7);
+                background-color: rgba(255, 0, 0, 0.7);
             }
 
             .impact-dot.active {
-                background-color: var(--secondary);
+                background-color: var(--primary);
                 width: 32px;
                 border-radius: 5px;
-                box-shadow: 0 0 12px rgba(247, 184, 1, 0.5);
+                box-shadow: 0 0 12px rgba(255, 0, 0, 0.5);
             }
 
             .impact-nav-btn-left svg,
@@ -1484,7 +1488,7 @@
                 font-size: 0.9rem;
                 font-weight: 600;
                 margin-bottom: 1.5rem;
-                color: var(--secondary);
+                color: var(--primary);
                 text-transform: uppercase;
                 letter-spacing: 3px;
             }
@@ -1526,10 +1530,10 @@
             }
 
             .menu-btn:hover {
-                background: linear-gradient(135deg, var(--secondary) 0%, #e5a600 100%);
-                color: var(--dark);
+                background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+                color: var(--white);
                 transform: translateY(-3px);
-                box-shadow: 0 12px 32px rgba(247, 184, 1, 0.35);
+                box-shadow: 0 12px 32px rgba(255, 0, 0, 0.35);
             }
 
             @media (max-width: 768px) {
@@ -1866,7 +1870,7 @@
         <!-- Image Section -->
         <section class="image-section">
             <div class="image-container">
-                <img src="{{ asset('diverse-team-chefs-making-meal-preparations-with-ingredients-cooking-delicious-gourmet-dish-restaurant-kitchen-people-uniform-working-as-cooks-preparing-gastronomy-food-recipe.jpg') }}" alt="Repas frais et sain" class="featured-image">
+                <img src="{{ asset('diverse-team-chefs-making-meal-preparations-with-ingredients-cooking-delicious-gourmet-dish-restaurant-kitchen-people-uniform-working-as-cooks-preparing-gastronomy-food-recipe.jpg') }}" alt="Repas frais et sain" class="featured-image" fetchpriority="high" decoding="async">
             </div>
         </section>
 
@@ -1883,7 +1887,7 @@
                 <div class="services-slider" id="servicesSlider">
                     <!-- Service 1: Commandes -->
                     <div class="service-card dark">
-                        <img src="{{ asset('slide/person-putting-meat-salad-plate.jpg') }}" alt="Commandes" class="service-card-bg">
+                        <img src="{{ asset('slide/person-putting-meat-salad-plate.jpg') }}" alt="Commandes" class="service-card-bg" loading="lazy" decoding="async">
                         <div class="service-card-overlay">
                             <div class="service-card-content">
                                 <h3>Commandes</h3>
@@ -1895,7 +1899,7 @@
 
                     <!-- Service 2: Livraison -->
                     <div class="service-card">
-                        <img src="{{ asset('slide/woman-holding-locally-grown-produce.jpg') }}" alt="Livraison" class="service-card-bg">
+                        <img src="{{ asset('slide/woman-holding-locally-grown-produce.jpg') }}" alt="Livraison" class="service-card-bg" loading="lazy" decoding="async">
                         <div class="service-card-overlay">
                             <div class="service-card-content">
                                 <h3>Livraison</h3>
@@ -1907,7 +1911,7 @@
 
                     <!-- Service 3: Casiers Intelligents -->
                     <div class="service-card">
-                        <img src="{{ asset('slide/beautiful-young-woman-shopping-food.jpg') }}" alt="Casiers Intelligents" class="service-card-bg">
+                        <img src="{{ asset('slide/beautiful-young-woman-shopping-food.jpg') }}" alt="Casiers Intelligents" class="service-card-bg" loading="lazy" decoding="async">
                         <div class="service-card-overlay">
                             <div class="service-card-content">
                                 <h3>Casiers Intelligents</h3>
@@ -1921,7 +1925,7 @@
 
                     <!-- Service 5: Entreprise -->
                     <div class="service-card">
-                        <img src="{{ asset('slide/advisory-board-members-meeting-boardroom-establish-future-development-plan.jpg') }}" alt="Entreprise" class="service-card-bg">
+                        <img src="{{ asset('slide/advisory-board-members-meeting-boardroom-establish-future-development-plan.jpg') }}" alt="Entreprise" class="service-card-bg" loading="lazy" decoding="async">
                         <div class="service-card-overlay">
                             <div class="service-card-content">
                                 <h3>Entreprise</h3>
@@ -2016,7 +2020,7 @@
 
                 <!-- Colonne droite : Image -->
                 <div class="impact-image-wrapper">
-                    <img src="{{ asset('63378f21-e274-4597-8154-77207915e234-removebg-preview.png') }}" alt="Casier Domini" class="impact-image">
+                    <img src="{{ asset('63378f21-e274-4597-8154-77207915e234-removebg-preview.png') }}" alt="Casier Domini" class="impact-image" loading="lazy" decoding="async">
                 </div>
             </div>
         </section>
@@ -2026,22 +2030,22 @@
             <!-- Grid d'images -->
             <div class="menu-images-grid">
                 <div class="menu-grid-item">
-                    <img src="{{ asset('menu/big-sandwich-hamburger-with-juicy-beef-burger-cheese-tomato-red-onion-french-fries.jpg') }}" alt="Burger">
+                    <img src="{{ asset('menu/big-sandwich-hamburger-with-juicy-beef-burger-cheese-tomato-red-onion-french-fries.jpg') }}" alt="Burger" loading="lazy" decoding="async">
                 </div>
                 <div class="menu-grid-item">
-                    <img src="{{ asset('menu/fettuccine-pasta-with-meatballs-tomato-sauce.jpg') }}" alt="Pasta">
+                    <img src="{{ asset('menu/fettuccine-pasta-with-meatballs-tomato-sauce.jpg') }}" alt="Pasta" loading="lazy" decoding="async">
                 </div>
                 <div class="menu-grid-item">
-                    <img src="{{ asset('menu/side-view-pilaf-with-stewed-beef-meat-plate.jpg') }}" alt="Pilaf">
+                    <img src="{{ asset('menu/side-view-pilaf-with-stewed-beef-meat-plate.jpg') }}" alt="Pilaf" loading="lazy" decoding="async">
                 </div>
                 <div class="menu-grid-item">
-                    <img src="{{ asset('menu/chole-bhature-delicious-indian-street-food.jpg') }}" alt="Cuisine indienne">
+                    <img src="{{ asset('menu/chole-bhature-delicious-indian-street-food.jpg') }}" alt="Cuisine indienne" loading="lazy" decoding="async">
                 </div>
                 <div class="menu-grid-item">
-                    <img src="{{ asset('menu/closeup-roasted-meat-with-sauce-vegetables-fries-plate-table.jpg') }}" alt="Viande rôtie">
+                    <img src="{{ asset('menu/closeup-roasted-meat-with-sauce-vegetables-fries-plate-table.jpg') }}" alt="Viande rôtie" loading="lazy" decoding="async">
                 </div>
                 <div class="menu-grid-item">
-                    <img src="{{ asset('menu/asian-food-restaurant.jpg') }}" alt="Cuisine asiatique">
+                    <img src="{{ asset('menu/asian-food-restaurant.jpg') }}" alt="Cuisine asiatique" loading="lazy" decoding="async">
                 </div>
             </div>
 
@@ -2072,7 +2076,7 @@
                     <!-- Étape 1 -->
                     <div class="step-row animate-on-scroll fade-in-left">
                         <div class="step-image">
-                            <img src="{{ asset('slide/beautiful-young-woman-shopping-food.jpg')  }}" alt="Étape 1">
+                            <img src="{{ asset('slide/beautiful-young-woman-shopping-food.jpg')  }}" alt="Étape 1" loading="lazy" decoding="async">
                         </div>
                         <div class="step-content">
                             <div class="step-number">Étape 1</div>
@@ -2086,7 +2090,7 @@
                     <!-- Étape 2 -->
                     <div class="step-row reverse animate-on-scroll fade-in-right">
                         <div class="step-image">
-                            <img src="{{ asset('sectionlast/high-protein-meal-with-smartphone-arrangement.jpg') }}" alt="Étape 2">
+                            <img src="{{ asset('sectionlast/high-protein-meal-with-smartphone-arrangement.jpg') }}" alt="Étape 2" loading="lazy" decoding="async">
                         </div>
                         <div class="step-content">
                             <div class="step-number">Étape 2</div>
@@ -2100,7 +2104,7 @@
                     <!-- Étape 3 -->
                     <div class="step-row animate-on-scroll fade-in-left delay-100">
                         <div class="step-image">
-                            <img src="{{ asset('sectionlast/menutelphone.jfif') }}" alt="Étape 3">
+                            <img src="{{ asset('sectionlast/menutelphone.jfif') }}" alt="Étape 3" loading="lazy" decoding="async">
                         </div>
                         <div class="step-content">
                             <div class="step-number">Étape 3</div>
@@ -2114,7 +2118,7 @@
                     <!-- Étape 4 -->
                     <div class="step-row reverse animate-on-scroll fade-in-right delay-200">
                         <div class="step-image">
-                            <img src="{{ asset('sectionlast/Delivery guy.jfif') }}" alt="Étape 4">
+                            <img src="{{ asset('sectionlast/Delivery guy.jfif') }}" alt="Étape 4" loading="lazy" decoding="async">
                         </div>
                         <div class="step-content">
                             <div class="step-number">Étape 4</div>
@@ -2128,7 +2132,7 @@
                     <!-- Étape 5 -->
                     <div class="step-row animate-on-scroll fade-in-left delay-300">
                         <div class="step-image">
-                            <img src="{{ asset('sectionlast/6 Benefits Of Using NFC In Business_ _ Nexqo.jfif') }}" alt="Étape 5">
+                            <img src="{{ asset('sectionlast/6 Benefits Of Using NFC In Business_ _ Nexqo.jfif') }}" alt="Étape 5" loading="lazy" decoding="async">
                         </div>
                         <div class="step-content">
                             <div class="step-number">Étape 5</div>
@@ -2273,59 +2277,58 @@
             }
 
             // ============================================
-            // PARALLAX EFFECT (léger)
+            // PARALLAX EFFECT (léger) — throttlé requestAnimationFrame
             // ============================================
 
+            let parallaxTicking = false;
             window.addEventListener('scroll', () => {
-                const scrolled = window.pageYOffset;
-                
-                // Parallax sur les icônes de nourriture
-                const foodIcons = document.querySelectorAll('.food-icon');
-                foodIcons.forEach((icon, index) => {
-                    const speed = 0.1 + (index * 0.02);
-                    const yPos = -(scrolled * speed);
-                    icon.style.transform = `translateY(${yPos}px)`;
-                });
+                if (parallaxTicking) return;
+                parallaxTicking = true;
+                requestAnimationFrame(() => {
+                    const scrolled = window.pageYOffset;
 
-                // Parallax sur l'image featured
-                const featuredImage = document.querySelector('.featured-image');
-                if (featuredImage) {
-                    const rect = featuredImage.getBoundingClientRect();
-                    if (rect.top < window.innerHeight && rect.bottom > 0) {
-                        const yPos = (window.innerHeight - rect.top) * 0.1;
-                        featuredImage.style.transform = `translateY(${yPos}px) scale(1.05)`;
+                    const foodIcons = document.querySelectorAll('.food-icon');
+                    foodIcons.forEach((icon, index) => {
+                        const speed = 0.1 + (index * 0.02);
+                        const yPos = -(scrolled * speed);
+                        icon.style.transform = `translateY(${yPos}px)`;
+                    });
+
+                    const featuredImage = document.querySelector('.featured-image');
+                    if (featuredImage) {
+                        const rect = featuredImage.getBoundingClientRect();
+                        if (rect.top < window.innerHeight && rect.bottom > 0) {
+                            const yPos = (window.innerHeight - rect.top) * 0.1;
+                            featuredImage.style.transform = `translateY(${yPos}px) scale(1.05)`;
+                        }
                     }
-                }
-            });
-
-            // ============================================
-            // PRELOAD PERFORMANCE
-            // ============================================
-
-            // Lazy loading des images
-            if ('loading' in HTMLImageElement.prototype) {
-                const images = document.querySelectorAll('img[loading="lazy"]');
-                images.forEach(img => {
-                    img.src = img.dataset.src;
+                    parallaxTicking = false;
                 });
-            } else {
-                // Fallback pour les navigateurs plus anciens
-                const script = document.createElement('script');
-                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js';
-                document.body.appendChild(script);
-            }
+            }, { passive: true });
         </script>
 
-        <!-- Smartsupp Live Chat script -->
+        <!-- Smartsupp : chargé après le premier rendu pour ne pas bloquer le LCP -->
         <script type="text/javascript">
-        var _smartsupp = _smartsupp || {};
-        _smartsupp.key = '73234f96a43e1e6223c9bc16cc051c9a054376c2';
-        window.smartsupp||(function(d) {
-          var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
-          s=d.getElementsByTagName('script')[0];c=d.createElement('script');
-          c.type='text/javascript';c.charset='utf-8';c.async=true;
-          c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
-        })(document);
+        (function () {
+            function loadSmartsupp() {
+                if (window.__smartsuppLoaded) return;
+                window.__smartsuppLoaded = true;
+                var _smartsupp = window._smartsupp || {};
+                _smartsupp.key = '73234f96a43e1e6223c9bc16cc051c9a054376c2';
+                window.smartsupp || (function (d) {
+                    var s, c, o = window.smartsupp = function () { o._.push(arguments); }; o._ = [];
+                    s = d.getElementsByTagName('script')[0]; c = d.createElement('script');
+                    c.type = 'text/javascript'; c.charset = 'utf-8'; c.async = true;
+                    c.src = 'https://www.smartsuppchat.com/loader.js?';
+                    s.parentNode.insertBefore(c, s);
+                })(document);
+            }
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(loadSmartsupp, { timeout: 4000 });
+            } else {
+                window.addEventListener('load', function () { setTimeout(loadSmartsupp, 2000); });
+            }
+        })();
         </script>
         <noscript>Powered by <a href="https://www.smartsupp.com" target="_blank">Smartsupp</a></noscript>
     </body>

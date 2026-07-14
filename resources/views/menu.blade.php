@@ -21,7 +21,7 @@
             body {
                 font-family: 'Cormorant Garamond', 'Georgia', serif;
                 background-color: #F5F5F5;
-                color: #2C2C2C;
+                color: #000000;
                 line-height: 1.8;
                 overflow-x: hidden;
             }
@@ -70,17 +70,17 @@
             }
 
             .nav-link:hover {
-                color: #D9542A;
+                color: #FF0000;
                 transform: translateY(-2px);
             }
 
             .nav-link.active {
-                color: #D9542A;
+                color: #FF0000;
                 font-weight: 600;
             }
 
             .btn-signup {
-                background-color: #2C2C2C;
+                background-color: #000000;
                 color: #FFFFFF;
                 padding: 0.75rem 1.5rem;
                 border-radius: 8px;
@@ -95,7 +95,7 @@
             }
 
             .btn-signup:hover {
-                background-color: #D9542A;
+                background-color: #FF0000;
                 transform: translateY(-2px);
             }
 
@@ -110,7 +110,7 @@
             }
 
             .menu-icon:hover {
-                background-color: rgba(217, 84, 42, 0.1);
+                background-color: rgba(255, 0, 0, 0.1);
             }
 
             .menu-icon span {
@@ -122,7 +122,7 @@
             }
 
             .menu-icon:hover span {
-                background-color: #D9542A;
+                background-color: #FF0000;
             }
 
             /* Hero Section avec Pattern */
@@ -134,8 +134,8 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                background-color: #D9542A;
-                border-bottom: 3px solid #F7B801;
+                background-color: #FF0000;
+                border-bottom: 3px solid #CC0000;
             }
 
             .menu-hero-pattern {
@@ -145,7 +145,7 @@
                 width: 50%;
                 height: 100%;
                 opacity: 0.3;
-                background-color: #F7B801;
+                background-color: #CC0000;
             }
 
             .menu-hero-image {
@@ -170,7 +170,7 @@
                 padding: 6rem 3rem 4rem;
                 text-align: center;
                 position: relative;
-                border-bottom: 3px solid #D9542A;
+                border-bottom: 3px solid #FF0000;
             }
 
             .menu-title-section::before {
@@ -181,7 +181,7 @@
                 transform: translateX(-50%);
                 width: 150px;
                 height: 3px;
-                background-color: #D9542A;
+                background-color: #FF0000;
             }
 
             .menu-title-section::after {
@@ -191,13 +191,13 @@
                 left: 50%;
                 transform: translateX(-50%);
                 font-size: 1.5rem;
-                color: #D9542A;
+                color: #FF0000;
             }
 
             .menu-title {
                 font-size: 5rem;
                 font-weight: 700;
-                color: #2C2C2C;
+                color: #000000;
                 margin-bottom: 2rem;
                 letter-spacing: 4px;
                 font-family: 'Playfair Display', serif;
@@ -216,7 +216,7 @@
             .menu-divider-line {
                 width: 120px;
                 height: 1px;
-                background-color: #F7B801;
+                background-color: #CC0000;
             }
 
             .menu-divider-dots {
@@ -229,14 +229,14 @@
                 width: 8px;
                 height: 8px;
                 border-radius: 50%;
-                background-color: #D9542A;
+                background-color: #FF0000;
             }
 
             .menu-divider-dots::before,
             .menu-divider-dots::after {
                 content: '❦';
                 font-size: 1.25rem;
-                color: #F7B801;
+                color: #CC0000;
             }
 
             .menu-description {
@@ -251,7 +251,7 @@
             }
 
             .menu-description strong {
-                color: #2C2C2C;
+                color: #000000;
                 font-weight: 600;
                 font-style: normal;
             }
@@ -353,14 +353,14 @@
 
             .category-card-btn:hover {
                 background-color: #FFFFFF;
-                color: #2C2C2C;
+                color: #000000;
             }
 
-            /* Fond orange pour les catégories sans image */
+            /* Fond dégradé rouge pour les catégories sans image */
             .category-card-orange-bg {
                 width: 100%;
                 height: 100%;
-                background: linear-gradient(135deg, #F7B801 0%, #F49C12 50%, #D9542A 100%);
+                background: linear-gradient(135deg, #CC0000 0%, #990000 50%, #FF0000 100%);
                 position: relative;
                 display: flex;
                 align-items: center;
@@ -418,7 +418,7 @@
             }
 
             .close-details-btn:hover {
-                background-color: #D9542A;
+                background-color: #FF0000;
                 color: #FFFFFF;
                 transform: rotate(90deg);
             }
@@ -444,7 +444,7 @@
                 font-size: 3.5rem;
                 font-weight: 700;
                 font-family: 'Playfair Display', serif;
-                color: #2C2C2C;
+                color: #000000;
                 margin-bottom: 3rem;
                 letter-spacing: 1px;
             }
@@ -464,7 +464,7 @@
             }
 
             .category-details-item:hover {
-                border-left-color: #D9542A;
+                border-left-color: #FF0000;
                 transform: translateX(10px);
                 background-color: #FFF;
                 box-shadow: 0 4px 20px rgba(0,0,0,0.08);
@@ -481,7 +481,7 @@
                 font-size: 1.8rem;
                 font-weight: 700;
                 font-family: 'Playfair Display', serif;
-                color: #2C2C2C;
+                color: #000000;
                 margin: 0;
             }
 
@@ -489,7 +489,7 @@
                 font-size: 1.8rem;
                 font-weight: 900;
                 font-family: 'Playfair Display', serif;
-                color: #F7B801;
+                color: #CC0000;
                 white-space: nowrap;
             }
 
@@ -504,7 +504,7 @@
             .category-details-right {
                 position: relative;
                 overflow: hidden;
-                background-color: #2C2C2C;
+                background-color: #000000;
             }
 
             .category-details-right img {
@@ -516,7 +516,7 @@
             .category-details-orange-bg {
                 width: 100%;
                 height: 100%;
-                background: linear-gradient(135deg, #F7B801 0%, #F49C12 50%, #D9542A 100%);
+                background: linear-gradient(135deg, #CC0000 0%, #990000 50%, #FF0000 100%);
                 position: relative;
                 display: flex;
                 align-items: center;
@@ -584,7 +584,7 @@
                 align-items: center;
                 justify-content: center;
                 border-radius: 50%;
-                border: 3px solid #F7B801;
+                border: 3px solid #CC0000;
                 flex-shrink: 0;
             }
 
@@ -602,14 +602,14 @@
                 justify-content: center;
                 width: 100%;
                 height: 100%;
-                background-color: #FFF8F0;
+                background-color: #FFF5F5;
                 border-radius: 50%;
             }
 
             .no-image-placeholder svg {
                 width: 80px;
                 height: 80px;
-                color: #D9542A;
+                color: #FF0000;
                 opacity: 0.4;
             }
 
@@ -617,7 +617,7 @@
                 position: absolute;
                 top: 10px;
                 right: 10px;
-                background-color: #D9542A;
+                background-color: #FF0000;
                 color: #FFFFFF;
                 padding: 0.35rem 0.75rem;
                 border-radius: 20px;
@@ -644,7 +644,7 @@
             .menu-item-name {
                 font-size: 2rem;
                 font-weight: 700;
-                color: #2C2C2C;
+                color: #000000;
                 margin: 0;
                 font-family: 'Playfair Display', serif;
                 letter-spacing: 0.5px;
@@ -654,7 +654,7 @@
             .menu-item-price {
                 font-size: 2rem;
                 font-weight: 900;
-                color: #F7B801;
+                color: #CC0000;
                 white-space: nowrap;
                 font-family: 'Playfair Display', serif;
             }
@@ -669,8 +669,8 @@
 
             .menu-item-category {
                 display: inline-block;
-                background-color: #F7B801;
-                color: #2C2C2C;
+                background-color: #CC0000;
+                color: #000000;
                 padding: 0.25rem 0.75rem;
                 border-radius: 4px;
                 font-size: 0.85rem;
@@ -888,13 +888,13 @@
                 text-align: center;
                 padding: 5rem 2rem;
                 background-color: #FFFFFF;
-                border: 2px dashed #D9542A;
+                border: 2px dashed #FF0000;
                 border-radius: 12px;
             }
 
             .empty-message h3 {
                 font-size: 2rem;
-                color: #2C2C2C;
+                color: #000000;
                 margin-bottom: 1rem;
                 font-family: 'Playfair Display', serif;
             }
@@ -1012,13 +1012,17 @@
                 const detailsImage = document.getElementById('categoryDetailsImage');
                 const detailsOrangeBg = document.getElementById('categoryDetailsOrangeBg');
 
-                // Filtrer les plats de cette catégorie
-                const categoryPlats = platsData.filter(plat => plat.id_categorie === categoryId);
+                // Filtrer les plats de cette catégorie (Laravel expose categorie_id, pas id_categorie)
+                const cid = Number(categoryId);
+                const categoryPlats = platsData.filter(plat => {
+                    const pid = plat.categorie_id ?? plat.id_categorie;
+                    return Number(pid) === cid;
+                });
 
                 // Mettre à jour le titre
                 detailsTitle.textContent = categoryName;
 
-                // Mettre à jour l'image ou le fond orange
+                // Mettre à jour l'image ou le fond dégradé
                 if (categoryImage && categoryImage !== '') {
                     detailsImage.src = `/storage/${categoryImage}`;
                     detailsImage.style.display = 'block';

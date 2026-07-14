@@ -13,21 +13,21 @@
 
         <style>
             :root {
-                --primary: #D9542A;
-                --primary-dark: #c13d18;
-                --secondary: #F7B801;
-                --dark: #1A1A1A;
-                --dark-light: #2C2C2C;
+                --primary: #FF0000;
+                --primary-dark: #CC0000;
+                --secondary: #000000;
+                --dark: #000000;
+                --dark-light: #1A1A1A;
                 --gray: #5A5A5A;
-                --light: #F5F5F5;
+                --light: #FFFFFF;
                 --white: #FFFFFF;
-                --blue-soft: #B8D4E6;
-                --yellow-soft: #FFC847;
-                --pink-soft: #FFB6C1;
+                --surface-red-light: #FFEBEE;
+                --surface-red-mid: #FFCDD2;
+                --surface-neutral: #E8E8E8;
                 --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
                 --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
                 --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.12);
-                --shadow-primary: 0 8px 32px rgba(217, 84, 42, 0.25);
+                --shadow-primary: 0 8px 32px rgba(255, 0, 0, 0.25);
                 --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
                 --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                 --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -167,7 +167,7 @@
             }
 
             .menu-icon:hover {
-                background-color: rgba(217, 84, 42, 0.08);
+                background-color: rgba(255, 0, 0, 0.08);
             }
 
             .menu-icon span {
@@ -210,7 +210,7 @@
                 right: -10%;
                 width: 60%;
                 height: 120%;
-                background: radial-gradient(ellipse at center, rgba(217, 84, 42, 0.04) 0%, transparent 70%);
+                background: radial-gradient(ellipse at center, rgba(255, 0, 0, 0.04) 0%, transparent 70%);
                 pointer-events: none;
             }
 
@@ -365,7 +365,7 @@
                 height: 80px;
                 margin-left: auto;
                 margin-right: auto;
-                background: linear-gradient(135deg, rgba(217, 84, 42, 0.08) 0%, rgba(247, 184, 1, 0.08) 100%);
+                background: linear-gradient(135deg, rgba(255, 0, 0, 0.06) 0%, rgba(0, 0, 0, 0.04) 100%);
                 border-radius: 50%;
             }
 
@@ -477,15 +477,15 @@
             }
 
             .process-icon-wrapper.blue {
-                background: linear-gradient(135deg, var(--blue-soft) 0%, #a5c9de 100%);
+                background: linear-gradient(135deg, var(--surface-red-light) 0%, var(--surface-red-mid) 100%);
             }
 
             .process-icon-wrapper.yellow {
-                background: linear-gradient(135deg, var(--yellow-soft) 0%, #e5b33d 100%);
+                background: linear-gradient(135deg, #FFE0E0 0%, #E57373 100%);
             }
 
             .process-icon-wrapper.pink {
-                background: linear-gradient(135deg, var(--pink-soft) 0%, #f5a0ab 100%);
+                background: linear-gradient(135deg, var(--surface-neutral) 0%, #BDBDBD 100%);
             }
 
             .process-text {
@@ -607,14 +607,14 @@
             }
 
             .testimonial-dot:hover {
-                background-color: rgba(217, 84, 42, 0.5);
+                background-color: rgba(255, 0, 0, 0.5);
             }
 
             .testimonial-dot.active {
                 background-color: var(--primary);
                 width: 28px;
                 border-radius: 5px;
-                box-shadow: 0 0 10px rgba(217, 84, 42, 0.3);
+                box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
             }
 
             /* Benefits Section améliorée */
@@ -664,15 +664,15 @@
             }
 
             .benefit-card.blue {
-                background: linear-gradient(135deg, var(--blue-soft) 0%, #c5dbed 100%);
+                background: linear-gradient(135deg, var(--surface-red-light) 0%, var(--surface-red-mid) 100%);
             }
 
             .benefit-card.yellow {
-                background: linear-gradient(135deg, var(--yellow-soft) 0%, #ffd66b 100%);
+                background: linear-gradient(135deg, #FFF5F5 0%, #FFCDD2 100%);
             }
 
             .benefit-card.pink {
-                background: linear-gradient(135deg, var(--pink-soft) 0%, #ffccd3 100%);
+                background: linear-gradient(135deg, #F5F5F5 0%, #E0E0E0 100%);
             }
 
             .benefit-card:hover {
@@ -740,7 +740,7 @@
                 display: inline-flex;
                 align-items: center;
                 gap: 0.5rem;
-                background: linear-gradient(135deg, rgba(217, 84, 42, 0.08) 0%, rgba(247, 184, 1, 0.08) 100%);
+                background: linear-gradient(135deg, rgba(255, 0, 0, 0.06) 0%, rgba(0, 0, 0, 0.04) 100%);
                 color: var(--primary);
                 padding: 0.5rem 1.25rem;
                 border-radius: 50px;
@@ -748,7 +748,7 @@
                 font-size: 0.85rem;
                 margin-bottom: 1.5rem;
                 width: fit-content;
-                border: 1px solid rgba(217, 84, 42, 0.15);
+                border: 1px solid rgba(255, 0, 0, 0.15);
             }
 
             .cta-title {
@@ -1113,7 +1113,7 @@
                             <circle cx="12" cy="12" r="2"/>
                         </svg>
                     </div>
-                    <h3 class="benefit-title">La vie est plus belle en orange</h3>
+                    <h3 class="benefit-title">Rejoignez l’équipe Domini</h3>
                     <p class="benefit-description">
                         Un environnement de travail stable et sécurisé et de nombreux avantages. Ton parcours professionnel commence ici.
                     </p>

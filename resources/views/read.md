@@ -42,9 +42,9 @@ domini est une application ou les employeur dune societe commande et se fond liv
 
 etape 1 votre entreprise commande des caisier et souscris 
 
-etape 2 vous vous connectez techarger votre app 
+etape 2 vous vous  techarger notre app et vous vous inscrivez
 
-etape 3 commande 
+etape 3 vous passer commande 
 etape 4 le livreur livre et depose vos plat dans votre box dans le casie
 
 etape 5 vous deverouille votre cassier avec une carte nfc 

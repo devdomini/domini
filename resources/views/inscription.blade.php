@@ -78,12 +78,12 @@
             left: 0;
             width: 0;
             height: 2px;
-            background-color: #D9542A;
+            background-color: #FF0000;
             transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .nav-link:hover {
-            color: #D9542A;
+            color: #FF0000;
             transform: translateY(-2px);
         }
 
@@ -92,7 +92,7 @@
         }
 
         .btn-signup {
-            background-color: #2C2C2C;
+            background-color: #000000;
             color: #FFFFFF;
             padding: 0.75rem 1.5rem;
             border-radius: 8px;
@@ -128,9 +128,9 @@
         }
 
         .btn-signup:hover {
-            background-color: #D9542A;
+            background-color: #FF0000;
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(217, 84, 42, 0.3);
+            box-shadow: 0 8px 20px rgba(255, 0, 0, 0.3);
         }
 
         .menu-icon {
@@ -144,7 +144,7 @@
         }
 
         .menu-icon:hover {
-            background-color: rgba(217, 84, 42, 0.1);
+            background-color: rgba(255, 0, 0, 0.1);
         }
 
         .menu-icon span {
@@ -156,7 +156,7 @@
         }
 
         .menu-icon:hover span {
-            background-color: #D9542A;
+            background-color: #FF0000;
         }
 
         /* Main Section */
@@ -184,7 +184,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(217, 84, 42, 0.85), rgba(0, 0, 0, 0.7));
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.85), rgba(0, 0, 0, 0.7));
         }
 
         .left-text {

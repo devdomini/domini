@@ -54,6 +54,7 @@ class PlatController extends Controller
             'image.max' => 'La taille de l\'image ne peut pas dépasser 5 Mo.',
             'categorie_id.required' => 'La catégorie est obligatoire.',
             'categorie_id.exists' => 'La catégorie sélectionnée n\'existe pas.',
+            'qualite.in' => 'La qualité doit être: classic, pro ou premium.',
         ]);
 
         $data = [
@@ -62,6 +63,7 @@ class PlatController extends Controller
             'detail' => $validated['detail'] ?? null,
             'categorie_id' => $validated['categorie_id'],
             'est_disponible' => $request->has('est_disponible') ? true : false,
+            'qualite' => $validated['qualite'] ?? 'classic',
         ];
 
         // Handle image upload
@@ -122,6 +124,7 @@ class PlatController extends Controller
             'detail' => 'nullable|string',
             'categorie_id' => 'required|exists:categories,id',
             'est_disponible' => 'nullable|boolean',
+            'qualite' => 'nullable|in:classic,pro,premium',
             'accompagnements' => 'nullable|array',
             'accompagnements.*.nom' => 'required|string|max:255',
             'accompagnements.*.qte_gratuit' => 'required|integer|min:0',
@@ -142,6 +145,7 @@ class PlatController extends Controller
             'image.max' => 'La taille de l\'image ne peut pas dépasser 5 Mo.',
             'categorie_id.required' => 'La catégorie est obligatoire.',
             'categorie_id.exists' => 'La catégorie sélectionnée n\'existe pas.',
+            'qualite.in' => 'La qualité doit être: classic, pro ou premium.',
         ]);
 
         $data = [
@@ -150,6 +154,7 @@ class PlatController extends Controller
             'detail' => $validated['detail'] ?? null,
             'categorie_id' => $validated['categorie_id'],
             'est_disponible' => $request->has('est_disponible') ? true : false,
+            'qualite' => $validated['qualite'] ?? $plat->qualite ?? 'classic',
         ];
 
         // Handle image upload

@@ -1,0 +1,732 @@
+{
+	"info": {
+		"_postman_id": "domini-api-collection-2026",
+		"name": "Domini API - Collection Complète",
+		"description": "Collection complète des APIs Domini pour les employés\n\n**Base URL:** {{base_url}}\n\n**Authentification:** Bearer Token (Sanctum)\n\n**Instructions:**\n1. Créez un environnement Postman avec la variable `base_url` = `http://localhost:8000/api`\n2. Utilisez l'endpoint `/auth/login` pour obtenir un token\n3. Copiez le token dans la variable d'environnement `auth_token`\n4. Toutes les requêtes authentifiées utiliseront automatiquement ce token",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "🔐 Authentification",
+			"item": [
+				{
+					"name": "Inscription",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Jean Dupont\",\n  \"email\": \"jean@example.com\",\n  \"telephone\": \"+2250123456789\",\n  \"password\": \"password123\",\n  \"password_confirmation\": \"password123\",\n  \"role\": \"employe\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "register"]
+						},
+						"description": "Créer un nouveau compte employé"
+					},
+					"response": []
+				},
+				{
+					"name": "Connexion",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.data && jsonData.data.token) {",
+									"        pm.environment.set(\"auth_token\", jsonData.data.token);",
+									"        console.log(\"Token sauvegardé:\", jsonData.data.token);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"jean@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "login"]
+						},
+						"description": "Se connecter avec email et mot de passe. Le token sera automatiquement sauvegardé dans la variable d'environnement."
+					},
+					"response": []
+				},
+				{
+					"name": "Informations utilisateur",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/auth/me",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "me"]
+						},
+						"description": "Obtenir les informations de l'utilisateur connecté"
+					},
+					"response": []
+				},
+				{
+					"name": "Mettre à jour le profil",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Jean Dupont Modifié\",\n  \"email\": \"nouveau@example.com\",\n  \"telephone\": \"+2250987654321\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/profile",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "profile"]
+						},
+						"description": "Modifier les informations du profil utilisateur"
+					},
+					"response": []
+				},
+				{
+					"name": "Changer le mot de passe",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"current_password\": \"password123\",\n  \"password\": \"newpassword123\",\n  \"password_confirmation\": \"newpassword123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/change-password",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "change-password"]
+						},
+						"description": "Modifier le mot de passe de l'utilisateur"
+					},
+					"response": []
+				},
+				{
+					"name": "Vérifier le téléphone",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"telephone\": \"+2250123456789\",\n  \"code\": \"123456\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/verify-phone",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "verify-phone"]
+						},
+						"description": "Vérifier un numéro de téléphone avec le code reçu par SMS"
+					},
+					"response": []
+				},
+				{
+					"name": "Renvoyer le code de vérification",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"telephone\": \"+2250123456789\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/resend-verification-code",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "resend-verification-code"]
+						},
+						"description": "Renvoyer un nouveau code de vérification par SMS"
+					},
+					"response": []
+				},
+				{
+					"name": "Mot de passe oublié",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"jean@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/forgot-password",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "forgot-password"]
+						},
+						"description": "Demander la réinitialisation du mot de passe"
+					},
+					"response": []
+				},
+				{
+					"name": "Réinitialiser le mot de passe",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"token\": \"votre_token_de_reset\",\n  \"email\": \"jean@example.com\",\n  \"password\": \"nouveau_password\",\n  \"password_confirmation\": \"nouveau_password\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/reset-password",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "reset-password"]
+						},
+						"description": "Réinitialiser le mot de passe avec le token reçu par email"
+					},
+					"response": []
+				},
+				{
+					"name": "Déconnexion",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/auth/logout",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "logout"]
+						},
+						"description": "Se déconnecter et supprimer le token"
+					},
+					"response": []
+				}
+			],
+			"description": "Routes d'authentification pour les employés"
+		},
+		{
+			"name": "🍽️ Menu",
+			"item": [
+				{
+					"name": "Catégories",
+					"item": [
+						{
+							"name": "Liste des catégories",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/menu/categories?disponible=true",
+									"host": ["{{base_url}}"],
+									"path": ["menu", "categories"],
+									"query": [
+										{
+											"key": "disponible",
+											"value": "true",
+											"description": "Filtrer par disponibilité"
+										},
+										{
+											"key": "qualite",
+											"value": "premium",
+											"description": "Filtrer par qualité (classic, pro, premium)",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Obtenir toutes les catégories disponibles"
+							},
+							"response": []
+						},
+						{
+							"name": "Détails d'une catégorie",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/menu/categories/1",
+									"host": ["{{base_url}}"],
+									"path": ["menu", "categories", "1"]
+								},
+								"description": "Obtenir les détails d'une catégorie avec ses plats"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Plats",
+					"item": [
+						{
+							"name": "Liste des plats",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/menu/plats?disponible=true",
+									"host": ["{{base_url}}"],
+									"path": ["menu", "plats"],
+									"query": [
+										{
+											"key": "disponible",
+											"value": "true",
+											"description": "Filtrer par disponibilité"
+										},
+										{
+											"key": "categorie_id",
+											"value": "1",
+											"description": "Filtrer par catégorie",
+											"disabled": true
+										},
+										{
+											"key": "qualite",
+											"value": "premium",
+											"description": "Filtrer par qualité",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "riz",
+											"description": "Rechercher par nom",
+											"disabled": true
+										},
+										{
+											"key": "sort_by",
+											"value": "prix",
+											"description": "Trier par (nom, prix, created_at)",
+											"disabled": true
+										},
+										{
+											"key": "sort_order",
+											"value": "asc",
+											"description": "Ordre (asc, desc)",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Obtenir tous les plats disponibles avec filtres optionnels"
+							},
+							"response": []
+						},
+						{
+							"name": "Plats par catégorie",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/menu/plats/category/1?disponible=true",
+									"host": ["{{base_url}}"],
+									"path": ["menu", "plats", "category", "1"],
+									"query": [
+										{
+											"key": "disponible",
+											"value": "true"
+										},
+										{
+											"key": "qualite",
+											"value": "premium",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Obtenir tous les plats d'une catégorie spécifique"
+							},
+							"response": []
+						},
+						{
+							"name": "Détails d'un plat",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/menu/plats/1",
+									"host": ["{{base_url}}"],
+									"path": ["menu", "plats", "1"]
+								},
+								"description": "Obtenir les détails complets d'un plat avec accompagnements et options"
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"description": "Routes publiques pour consulter le menu"
+		},
+		{
+			"name": "🛒 Commandes",
+			"item": [
+				{
+					"name": "Créer une commande",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"items\": [\n    {\n      \"plat_id\": 1,\n      \"quantite\": 2,\n      \"accompagnements\": [\n        {\n          \"id\": 1,\n          \"quantite\": 1\n        }\n      ],\n      \"options\": [\n        {\n          \"id\": 1,\n          \"quantite\": 1\n        }\n      ]\n    },\n    {\n      \"plat_id\": 2,\n      \"quantite\": 1,\n      \"accompagnements\": [],\n      \"options\": []\n    }\n  ],\n  \"montant_total\": 7000,\n  \"lieu\": \"Bureau principal, Abidjan\",\n  \"lat\": 5.3600,\n  \"long\": -4.0083,\n  \"consigne_cuisinier\": \"Sans piment pour le premier plat\",\n  \"consigne_livreur\": \"Appeler avant d'arriver\",\n  \"mode_paiement\": \"mobile_money\",\n  \"numero_telephone\": \"+2250123456789\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/commandes",
+							"host": ["{{base_url}}"],
+							"path": ["commandes"]
+						},
+						"description": "Créer une nouvelle commande avec plusieurs plats, accompagnements et options"
+					},
+					"response": []
+				},
+				{
+					"name": "Historique des commandes",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/commandes/history?per_page=15",
+							"host": ["{{base_url}}"],
+							"path": ["commandes", "history"],
+							"query": [
+								{
+									"key": "per_page",
+									"value": "15",
+									"description": "Nombre d'éléments par page"
+								},
+								{
+									"key": "statut_commande",
+									"value": "en_attente",
+									"description": "Filtrer par statut (en_attente, confirmee, annulee, terminee)",
+									"disabled": true
+								},
+								{
+									"key": "statut_preparation",
+									"value": "en_cours",
+									"description": "Filtrer par statut de préparation",
+									"disabled": true
+								},
+								{
+									"key": "statut_livraison",
+									"value": "livree",
+									"description": "Filtrer par statut de livraison",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Obtenir l'historique des commandes de l'utilisateur connecté avec pagination"
+					},
+					"response": []
+				},
+				{
+					"name": "Détails d'une commande",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/commandes/1",
+							"host": ["{{base_url}}"],
+							"path": ["commandes", "1"]
+						},
+						"description": "Obtenir les détails d'une commande spécifique avec items, livraison et paiements"
+					},
+					"response": []
+				}
+			],
+			"description": "Routes pour gérer les commandes (nécessitent authentification)"
+		},
+		{
+			"name": "⭐ Favoris",
+			"item": [
+				{
+					"name": "Liste des favoris",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/favoris",
+							"host": ["{{base_url}}"],
+							"path": ["favoris"]
+						},
+						"description": "Obtenir tous les plats favoris de l'utilisateur connecté"
+					},
+					"response": []
+				},
+				{
+					"name": "Ajouter aux favoris",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"plat_id\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/favoris",
+							"host": ["{{base_url}}"],
+							"path": ["favoris"]
+						},
+						"description": "Ajouter un plat aux favoris"
+					},
+					"response": []
+				},
+				{
+					"name": "Vérifier si en favori",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/favoris/check/1",
+							"host": ["{{base_url}}"],
+							"path": ["favoris", "check", "1"]
+						},
+						"description": "Vérifier si un plat est dans les favoris de l'utilisateur"
+					},
+					"response": []
+				},
+				{
+					"name": "Retirer des favoris",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/favoris/1",
+							"host": ["{{base_url}}"],
+							"path": ["favoris", "1"]
+						},
+						"description": "Retirer un plat des favoris"
+					},
+					"response": []
+				}
+			],
+			"description": "Routes pour gérer les plats favoris (nécessitent authentification)"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000/api",
+			"type": "string"
+		},
+		{
+			"key": "auth_token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

@@ -55,7 +55,7 @@
                 <div>
                     <div style="font-size: 0.75rem; color: #666; text-transform: uppercase; margin-bottom: 0.5rem;">Coordonnées GPS</div>
                     <div style="font-weight: 600;">{{ $box->lat }}, {{ $box->long }}</div>
-                    <a href="https://www.google.com/maps?q={{ $box->lat }},{{ $box->long }}" target="_blank" style="color: #D9542A; text-decoration: none; font-size: 0.875rem; margin-top: 0.25rem; display: inline-flex; align-items: center; gap: 0.25rem;">
+                    <a href="https://www.google.com/maps?q={{ $box->lat }},{{ $box->long }}" target="_blank" style="color: #FF0000; text-decoration: none; font-size: 0.875rem; margin-top: 0.25rem; display: inline-flex; align-items: center; gap: 0.25rem;">
                         Voir sur Google Maps
                         <svg style="width: 12px; height: 12px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
@@ -66,8 +66,8 @@
 
                 <div>
                     <div style="font-size: 0.75rem; color: #666; text-transform: uppercase; margin-bottom: 0.5rem;">Date de création</div>
-                    <div style="font-weight: 600;">{{ $box->created_at->format('d/m/Y') }}</div>
-                    <div style="font-size: 0.875rem; color: #666;">{{ $box->created_at->diffForHumans() }}</div>
+                    <div style="font-weight: 600;">{{ $box->created_at?->format('d/m/Y') ?? '—' }}</div>
+                    <div style="font-size: 0.875rem; color: #666;">{{ $box->created_at?->diffForHumans() ?? '' }}</div>
                 </div>
             </div>
         </div>
@@ -75,7 +75,7 @@
 
     <!-- Statistiques des Casiers -->
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
-        <div style="background: linear-gradient(135deg, #3A3A3A, #2A2A2A); border-radius: 12px; padding: 1.5rem; color: white;">
+        <div style="background: linear-gradient(135deg, #1A1A1A, #000000); border-radius: 12px; padding: 1.5rem; color: white;">
             <div style="font-size: 0.875rem; opacity: 0.9;">Total Casiers</div>
             <div style="font-size: 2.5rem; font-weight: 900;">{{ $box->capacite }}</div>
         </div>
@@ -90,7 +90,7 @@
             <div style="font-size: 2.5rem; font-weight: 900;">{{ $box->casiersOccupes() }}</div>
         </div>
 
-        <div style="background: linear-gradient(135deg, #F7B801, #e5a900); border-radius: 12px; padding: 1.5rem; color: white;">
+        <div style="background: linear-gradient(135deg, #CC0000, #990000); border-radius: 12px; padding: 1.5rem; color: white;">
             <div style="font-size: 0.875rem; opacity: 0.9;">Taux d'Occupation</div>
             <div style="font-size: 2.5rem; font-weight: 900;">
                 {{ $box->capacite > 0 ? round(($box->casiersOccupes() / $box->capacite) * 100) : 0 }}%
@@ -134,19 +134,19 @@
                             <th>QR Code</th>
                             <th>Employé</th>
                             <th>Statut</th>
-                            <th style="width: 100px;">Actions</th>
+                            <th style="width: 220px;">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="casiersTableBody">
                         @foreach($box->casiers->sortBy('numero_casier') as $casier)
                         <tr class="casier-row" data-numero="{{ $casier->numero_casier }}" data-ref="{{ $casier->ref }}" data-qr="{{ $casier->qr_code }}" data-statut="{{ $casier->statut }}">
                             <td style="text-align: center;">
-                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #D9542A, #c13d18); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 1.125rem;">
+                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #FF0000, #CC0000); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 1.125rem;">
                                     {{ $casier->numero_casier }}
                                 </div>
                             </td>
                             <td>
-                                <div style="font-family: 'Courier New', monospace; font-weight: 600; color: #3A3A3A;">{{ $casier->ref }}</div>
+                                <div style="font-family: 'Courier New', monospace; font-weight: 600; color: #000000;">{{ $casier->ref }}</div>
                             </td>
                             <td>
                                 <div style="font-family: 'Courier New', monospace; font-size: 0.875rem; color: #666; background: #F5F5F5; padding: 0.25rem 0.5rem; border-radius: 4px; display: inline-block;">
@@ -165,7 +165,7 @@
                                 @php
                                     $statutColors = [
                                         'libre' => 'background-color: #E8F5E9; color: #2d9248;',
-                                        'occupe' => 'background-color: #FFEBEE; color: #C62828;',
+                                        'occupe' => 'background-color: #FFEBEE; color: #CC0000;',
                                         'reserve' => 'background-color: #FFF3E0; color: #E65100;',
                                         'hors_service' => 'background-color: #F5F5F5; color: #666;'
                                     ];
@@ -176,16 +176,67 @@
                                         'hors_service' => 'Hors service'
                                     ];
                                 @endphp
-                                <span class="badge" style="{{ $statutColors[$casier->statut] ?? '' }}">
-                                    {{ $statutLabels[$casier->statut] ?? $casier->statut }}
-                                </span>
+                                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                    <span class="badge" style="{{ $statutColors[$casier->statut] ?? '' }}">
+                                        {{ $statutLabels[$casier->statut] ?? $casier->statut }}
+                                    </span>
+                                    <form action="{{ route('admin.boxes.casiers.status', [$box->id, $casier->id]) }}" method="POST" style="display: inline-flex; gap: 0.35rem; align-items: center;">
+                                        @csrf
+                                        @method('PATCH')
+                                        <select name="statut" style="padding: 0.35rem 0.5rem; border: 1px solid #E5E5E5; border-radius: 8px; background: white; font-size: 0.85rem;">
+                                            <option value="libre" {{ $casier->statut === 'libre' ? 'selected' : '' }}>Libre</option>
+                                            <option value="reserve" {{ $casier->statut === 'reserve' ? 'selected' : '' }}>Réservé</option>
+                                            <option value="occupe" {{ $casier->statut === 'occupe' ? 'selected' : '' }} {{ !$casier->id_employe ? 'disabled' : '' }}>Occupé</option>
+                                            <option value="hors_service" {{ $casier->statut === 'hors_service' ? 'selected' : '' }}>Hors service</option>
+                                        </select>
+                                        <button type="submit" class="btn-icon" style="background-color: #000000;" title="Changer le statut">
+                                            <svg style="width: 16px; height: 16px; color: white;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            </svg>
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                             <td>
-                                <button onclick="showQRCode('{{ $casier->qr_code }}', '{{ $casier->ref }}')" class="btn-icon" style="background-color: #3A3A3A;" title="Voir QR Code">
-                                    <svg style="width: 16px; height: 16px; color: white;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/>
-                                    </svg>
-                                </button>
+                                <div style="display: flex; gap: 0.5rem; align-items: center; justify-content: flex-end;">
+                                    @if($casier->employe)
+                                        <a href="{{ route('admin.users.edit', $casier->employe->id) }}" class="btn-icon" style="background-color: #CC0000;" title="Modifier l’employé">
+                                            <svg style="width: 16px; height: 16px; color: white;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                            </svg>
+                                        </a>
+                                        <form action="{{ route('admin.boxes.casiers.unassign', [$box->id, $casier->id]) }}" method="POST" style="display: inline;" onsubmit="return confirm('Retirer cet employé du casier {{ $casier->ref }} ?');">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="btn-icon" style="background-color: #EF4444;" title="Retirer l’employé">
+                                                <svg style="width: 16px; height: 16px; color: white;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    @else
+                                        @if($casier->statut === 'hors_service')
+                                            <button class="btn-icon" style="background-color: #9CA3AF; cursor: not-allowed;" title="Casier hors service : attribution impossible" disabled>
+                                                <svg style="width: 16px; height: 16px; color: white;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-12.728 12.728"/>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21a9 9 0 110-18 9 9 0 010 18z"/>
+                                                </svg>
+                                            </button>
+                                        @else
+                                            <button onclick="openAssignModal({{ $casier->id }}, '{{ $casier->ref }}')" class="btn-icon" style="background-color: #10B981;" title="Attribuer un employé">
+                                                <svg style="width: 16px; height: 16px; color: white;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                                                </svg>
+                                            </button>
+                                        @endif
+                                    @endif
+                                    <button onclick="showQRCode('{{ $casier->qr_code }}', '{{ $casier->ref }}')" class="btn-icon" style="background-color: #000000;" title="Voir QR Code">
+                                        <svg style="width: 16px; height: 16px; color: white;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/>
+                                        </svg>
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                         @endforeach
@@ -215,6 +266,27 @@
             <button onclick="hideQRCodeModal()" class="btn btn-secondary" style="width: 100%;">Fermer</button>
         </div>
     </div>
+
+    <!-- Modal Attribution Employé -->
+    <div id="assignModal" style="display: none; position: fixed; inset: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1001; justify-content: center; align-items: center; padding: 1rem;">
+        <div style="background: white; border-radius: 12px; max-width: 650px; width: 100%; overflow: hidden;">
+            <div style="padding: 1rem 1.25rem; border-bottom: 1px solid #E5E5E5; display: flex; align-items: center; justify-content: space-between;">
+                <div>
+                    <div style="font-size: 1.1rem; font-weight: 800; color: #000000;">Attribuer un employé</div>
+                    <div id="assignSubtitle" style="font-size: 0.85rem; color: #666;"></div>
+                </div>
+                <button onclick="closeAssignModal()" class="btn btn-secondary" style="padding: 0.5rem 0.75rem;">Fermer</button>
+            </div>
+            <div style="padding: 1rem 1.25rem;">
+                <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+                    <input id="assignSearchInput" type="text" placeholder="Rechercher par nom, téléphone ou email..." style="flex: 1; min-width: 260px; padding: 0.75rem; border: 1px solid #E5E5E5; border-radius: 10px;">
+                    <button id="assignSearchBtn" onclick="performEmployeSearch()" class="btn btn-primary" style="padding: 0.75rem 1rem;">Rechercher</button>
+                </div>
+                <div id="assignStatus" style="margin-top: 0.75rem; font-size: 0.85rem; color: #666;"></div>
+                <div id="assignResults" style="margin-top: 1rem; display: grid; gap: 0.75rem;"></div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('scripts')
@@ -222,6 +294,10 @@
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 
 <script>
+// CSRF pour formulaires générés en JS
+const CSRF_TOKEN = @json(csrf_token());
+const BOX_ID = @json($box->id);
+
 // Recherche et filtrage
 const searchInput = document.getElementById('searchCasier');
 const filterStatut = document.getElementById('filterStatut');
@@ -250,6 +326,103 @@ function filterCasiers() {
 
 searchInput.addEventListener('input', filterCasiers);
 filterStatut.addEventListener('change', filterCasiers);
+
+// Attribution employé
+let currentAssignCasierId = null;
+let currentAssignCasierRef = '';
+
+function openAssignModal(casierId, casierRef) {
+    currentAssignCasierId = casierId;
+    currentAssignCasierRef = casierRef;
+    document.getElementById('assignSubtitle').textContent = `Casier : ${casierRef}`;
+    document.getElementById('assignSearchInput').value = '';
+    document.getElementById('assignResults').innerHTML = '';
+    document.getElementById('assignStatus').textContent = 'Tapez une recherche (nom, téléphone, email).';
+    const modal = document.getElementById('assignModal');
+    modal.style.display = 'flex';
+    setTimeout(() => document.getElementById('assignSearchInput').focus(), 50);
+}
+
+function closeAssignModal() {
+    const modal = document.getElementById('assignModal');
+    modal.style.display = 'none';
+    currentAssignCasierId = null;
+    currentAssignCasierRef = '';
+}
+
+document.getElementById('assignModal')?.addEventListener('click', (e) => {
+    if (e.target?.id === 'assignModal') closeAssignModal();
+});
+
+document.getElementById('assignSearchInput')?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        performEmployeSearch();
+    }
+});
+
+async function performEmployeSearch() {
+    const q = document.getElementById('assignSearchInput').value.trim();
+    if (!currentAssignCasierId) return;
+
+    const status = document.getElementById('assignStatus');
+    const results = document.getElementById('assignResults');
+    results.innerHTML = '';
+    status.textContent = 'Recherche en cours…';
+
+    try {
+        const url = new URL(`/admin/boxes/${BOX_ID}/employes/search`, window.location.origin);
+        if (q) url.searchParams.set('q', q);
+        const resp = await fetch(url.toString(), { headers: { 'Accept': 'application/json' } });
+        const data = await resp.json();
+        const list = data?.data ?? [];
+
+        if (!Array.isArray(list) || list.length === 0) {
+            status.textContent = 'Aucun employé trouvé.';
+            return;
+        }
+        status.textContent = `${list.length} employé(s) trouvé(s).`;
+
+        results.innerHTML = list.map(u => {
+            const name = (u.name ?? 'Employé').toString();
+            const email = (u.email ?? '').toString();
+            const tel = (u.telephone ?? '').toString();
+            const box = (u.num_box ?? '').toString();
+
+            return `
+                <div style="border: 1px solid #E5E5E5; border-radius: 12px; padding: 0.9rem; display: flex; gap: 1rem; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+                    <div style="min-width: 240px;">
+                        <div style="font-weight: 800; color: #000000;">${escapeHtml(name)}</div>
+                        <div style="font-size: 0.85rem; color: #666; margin-top: 0.2rem;">
+                            ${email ? escapeHtml(email) : '—'} ${tel ? ' · ' + escapeHtml(tel) : ''} ${box ? ' · Box ' + escapeHtml(box) : ''}
+                        </div>
+                    </div>
+                    <form method="POST" action="/admin/boxes/${BOX_ID}/casiers/${currentAssignCasierId}/assign" style="margin: 0;">
+                        <input type="hidden" name="_token" value="${CSRF_TOKEN}">
+                        <input type="hidden" name="_method" value="PATCH">
+                        <input type="hidden" name="employe_id" value="${u.id}">
+                        <button type="submit" class="btn btn-primary" style="padding: 0.6rem 1rem;">
+                            Attribuer
+                        </button>
+                    </form>
+                </div>
+            `;
+        }).join('');
+    } catch (e) {
+        status.textContent = '';
+        results.innerHTML = '';
+        alert('Erreur de recherche. Vérifiez votre connexion.');
+    }
+}
+
+function escapeHtml(s) {
+    return String(s)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+}
 
 // Modal QR Code
 let currentQRCode = null;

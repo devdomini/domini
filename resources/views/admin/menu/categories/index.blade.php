@@ -42,10 +42,10 @@
     <!-- Header -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
         <div>
-            <a href="{{ route('admin.menu.index') }}" style="color: #D9542A; text-decoration: none; font-weight: 600; display: inline-block; margin-bottom: 0.5rem;">
+            <a href="{{ route('admin.menu.index') }}" style="color: #FF0000; text-decoration: none; font-weight: 600; display: inline-block; margin-bottom: 0.5rem;">
                 ← Retour au menu
             </a>
-            <h2 style="font-size: 1.5rem; font-weight: 700; color: #3A3A3A;">Catégories de plats</h2>
+            <h2 style="font-size: 1.5rem; font-weight: 700; color: #000000;">Catégories de plats</h2>
             <p style="color: #666; margin-top: 0.25rem;">{{ $categories->count() }} catégorie(s) au total</p>
         </div>
     </div>
@@ -54,7 +54,7 @@
     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem;">
         
         <!-- Add Category Card (Modal Trigger) -->
-        <div onclick="openAddModal()" style="background: linear-gradient(135deg, #D9542A, #F7B801); border-radius: 16px; padding: 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 300px; cursor: pointer; transition: all 0.3s; border: 3px dashed rgba(255, 255, 255, 0.5);">
+        <div onclick="openAddModal()" style="background: linear-gradient(135deg, #FF0000, #CC0000); border-radius: 16px; padding: 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 300px; cursor: pointer; transition: all 0.3s; border: 3px dashed rgba(255, 255, 255, 0.5);">
             <svg style="width: 64px; height: 64px; color: white; margin-bottom: 1rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
             </svg>
@@ -74,7 +74,7 @@
                 @if($categorie->logo)
                     <img src="{{ asset('storage/' . $categorie->logo) }}" alt="{{ $categorie->nom }}" style="width: 100%; height: 100%; object-fit: cover;">
                 @else
-                    <div style="font-size: 4rem; font-weight: 900; color: #D9542A;">
+                    <div style="font-size: 4rem; font-weight: 900; color: #FF0000;">
                         {{ strtoupper(substr($categorie->nom, 0, 1)) }}
                     </div>
                 @endif
@@ -92,9 +92,25 @@
             <!-- Content -->
             <div style="padding: 1.5rem;">
                 <!-- Nom -->
-                <h3 style="font-size: 1.125rem; font-weight: 700; color: #3A3A3A; margin-bottom: 1.5rem; text-align: center;">
+                <h3 style="font-size: 1.125rem; font-weight: 700; color: #000000; margin-bottom: 0.5rem; text-align: center;">
                     {{ $categorie->nom }}
                 </h3>
+                
+                <!-- Qualité -->
+                <div style="text-align: center; margin-bottom: 1rem;">
+                    @php
+                        $qualiteColors = [
+                            'classic' => ['bg' => '#E5E5E5', 'text' => '#000000'],
+                            'pro' => ['bg' => '#3B82F6', 'text' => '#FFFFFF'],
+                            'premium' => ['bg' => '#CC0000', 'text' => '#000000']
+                        ];
+                        $qualite = $categorie->qualite ?? 'classic';
+                        $colors = $qualiteColors[$qualite] ?? $qualiteColors['classic'];
+                    @endphp
+                    <span style="background-color: {{ $colors['bg'] }}; color: {{ $colors['text'] }}; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">
+                        {{ ucfirst($qualite) }}
+                    </span>
+                </div>
 
                 <!-- Actions -->
                 <div style="display: grid; grid-template-columns: 1fr auto auto; gap: 0.5rem; align-items: center;">
@@ -109,7 +125,7 @@
                     </form>
 
                     <!-- Edit Button -->
-                    <button onclick="openEditModal({{ $categorie->id }}, '{{ $categorie->nom }}', {{ $categorie->est_disponible ? 'true' : 'false' }})" style="width: 40px; height: 40px; border-radius: 8px; border: none; background-color: #F7B801; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">
+                    <button onclick="openEditModal({{ $categorie->id }}, '{{ $categorie->nom }}', {{ $categorie->est_disponible ? 'true' : 'false' }}, '{{ $categorie->qualite ?? 'classic' }}')" style="width: 40px; height: 40px; border-radius: 8px; border: none; background-color: #CC0000; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">
                         <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                         </svg>
@@ -119,7 +135,7 @@
                     <form action="{{ route('admin.menu.categories.destroy', $categorie->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette catégorie ?');">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" style="width: 40px; height: 40px; border-radius: 8px; border: none; background-color: #C62828; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">
+                        <button type="submit" style="width: 40px; height: 40px; border-radius: 8px; border: none; background-color: #CC0000; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">
                             <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                             </svg>
@@ -135,7 +151,7 @@
     <div id="addModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999; align-items: center; justify-content: center;">
         <div style="background: white; border-radius: 16px; padding: 2rem; max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                <h3 style="font-size: 1.5rem; font-weight: 700; color: #3A3A3A;">Ajouter une catégorie</h3>
+                <h3 style="font-size: 1.5rem; font-weight: 700; color: #000000;">Ajouter une catégorie</h3>
                 <button onclick="closeAddModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666;">×</button>
             </div>
 
@@ -144,8 +160,8 @@
                 <div style="display: grid; gap: 1.5rem;">
                     <!-- Nom -->
                     <div>
-                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #3A3A3A;">
-                            Nom de la catégorie <span style="color: #D9542A;">*</span>
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #000000;">
+                            Nom de la catégorie <span style="color: #FF0000;">*</span>
                         </label>
                         <input 
                             type="text" 
@@ -158,7 +174,7 @@
 
                     <!-- Logo -->
                     <div>
-                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #3A3A3A;">
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #000000;">
                             Logo/Image
                         </label>
                         <input 
@@ -171,11 +187,26 @@
                         <small style="color: #666; font-size: 0.75rem;">Format: JPG, PNG, GIF, WebP (Max 5 Mo)</small>
                     </div>
 
+                    <!-- Qualité -->
+                    <div>
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #000000;">
+                            Qualité
+                        </label>
+                        <select 
+                            name="qualite" 
+                            style="width: 100%; padding: 0.75rem; border: 2px solid #E5E5E5; border-radius: 8px; font-size: 1rem;"
+                        >
+                            <option value="classic">Classic</option>
+                            <option value="pro">Pro</option>
+                            <option value="premium">Premium</option>
+                        </select>
+                    </div>
+
                     <!-- Disponible -->
                     <div>
                         <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
                             <input type="checkbox" name="est_disponible" value="1" checked style="width: 18px; height: 18px;">
-                            <span style="font-weight: 600; color: #3A3A3A;">Catégorie disponible</span>
+                            <span style="font-weight: 600; color: #000000;">Catégorie disponible</span>
                         </label>
                     </div>
                 </div>
@@ -197,7 +228,7 @@
     <div id="editModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999; align-items: center; justify-content: center;">
         <div style="background: white; border-radius: 16px; padding: 2rem; max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                <h3 style="font-size: 1.5rem; font-weight: 700; color: #3A3A3A;">Modifier la catégorie</h3>
+                <h3 style="font-size: 1.5rem; font-weight: 700; color: #000000;">Modifier la catégorie</h3>
                 <button onclick="closeEditModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666;">×</button>
             </div>
 
@@ -207,8 +238,8 @@
                 <div style="display: grid; gap: 1.5rem;">
                     <!-- Nom -->
                     <div>
-                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #3A3A3A;">
-                            Nom de la catégorie <span style="color: #D9542A;">*</span>
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #000000;">
+                            Nom de la catégorie <span style="color: #FF0000;">*</span>
                         </label>
                         <input 
                             type="text" 
@@ -221,7 +252,7 @@
 
                     <!-- Logo -->
                     <div>
-                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #3A3A3A;">
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #000000;">
                             Nouveau logo/image (optionnel)
                         </label>
                         <input 
@@ -234,11 +265,27 @@
                         <small style="color: #666; font-size: 0.75rem;">Format: JPG, PNG, GIF, WebP (Max 5 Mo) - Laisser vide pour conserver l'image actuelle</small>
                     </div>
 
+                    <!-- Qualité -->
+                    <div>
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #000000;">
+                            Qualité
+                        </label>
+                        <select 
+                            name="qualite" 
+                            id="editQualite"
+                            style="width: 100%; padding: 0.75rem; border: 2px solid #E5E5E5; border-radius: 8px; font-size: 1rem;"
+                        >
+                            <option value="classic">Classic</option>
+                            <option value="pro">Pro</option>
+                            <option value="premium">Premium</option>
+                        </select>
+                    </div>
+
                     <!-- Disponible -->
                     <div>
                         <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
                             <input type="checkbox" name="est_disponible" value="1" id="editDisponible" style="width: 18px; height: 18px;">
-                            <span style="font-weight: 600; color: #3A3A3A;">Catégorie disponible</span>
+                            <span style="font-weight: 600; color: #000000;">Catégorie disponible</span>
                         </label>
                     </div>
                 </div>
@@ -294,7 +341,7 @@
         }
 
         input:checked + .slider {
-            background-color: #D9542A;
+            background-color: #FF0000;
         }
 
         input:checked + .slider:before {
@@ -329,10 +376,11 @@
             document.getElementById('addModal').style.display = 'none';
         }
 
-        function openEditModal(id, nom, disponible) {
+        function openEditModal(id, nom, disponible, qualite = 'classic') {
             document.getElementById('editForm').action = `/admin/menu/categories/${id}`;
             document.getElementById('editNom').value = nom;
             document.getElementById('editDisponible').checked = disponible;
+            document.getElementById('editQualite').value = qualite;
             document.getElementById('editModal').style.display = 'flex';
         }
 
@@ -355,7 +403,11 @@
                 const fileName = input.files[0].name;
                 const fileInfo = document.createElement('div');
                 fileInfo.style.cssText = 'margin-top: 0.5rem; padding: 0.5rem; background: #F0FDF4; border: 1px solid #86EFAC; border-radius: 6px; font-size: 0.875rem; color: #166534;';
-                fileInfo.innerHTML = `✓ ${fileName} (${fileSize.toFixed(2)} Mo)`;
+                fileInfo.innerHTML = `${fileName} (${fileSize.toFixed(2)} Mo)`;
+                fileInfo.style.display = 'flex';
+                fileInfo.style.alignItems = 'center';
+                fileInfo.style.gap = '0.25rem';
+                fileInfo.style.color = '#10B981';
                 
                 // Remove previous file info if exists
                 const prevInfo = input.parentElement.querySelector('.file-info');

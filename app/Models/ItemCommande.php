@@ -12,7 +12,6 @@ class ItemCommande extends Model
         'accompagnements',
         'options',
         'prix',
-        'prix_unitaire',
         'is_subventionne',
         'quantite',
     ];

@@ -14,15 +14,19 @@ class Livraison extends Model
         'statut',
         'heure_assignation',
         'heure_prise_en_charge',
+        'heure_recuperation',
         'heure_livraison',
         'commentaire',
+        'refused_livreur_ids',
     ];
 
     protected $casts = [
         'montant_livraison' => 'decimal:2',
         'heure_assignation' => 'datetime',
         'heure_prise_en_charge' => 'datetime',
+        'heure_recuperation' => 'datetime',
         'heure_livraison' => 'datetime',
+        'refused_livreur_ids' => 'array',
     ];
 
     public function commande()

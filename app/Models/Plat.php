@@ -16,6 +16,7 @@ class Plat extends Model
         'est_disponible',
         'detail',
         'categorie_id',
+        'qualite',
     ];
 
     protected $casts = [

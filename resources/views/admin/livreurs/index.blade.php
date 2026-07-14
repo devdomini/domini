@@ -16,7 +16,7 @@
 
     <!-- Stats Cards -->
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
-        <div class="card" style="background: linear-gradient(135deg, #D9542A, #c13d18); color: white;">
+        <div class="card" style="background: linear-gradient(135deg, #FF0000, #CC0000); color: white;">
             <div style="padding: 1.5rem;">
                 <div style="font-size: 0.875rem; opacity: 0.9;">Total Livreurs</div>
                 <div style="font-size: 2rem; font-weight: 900; margin: 0.5rem 0;">{{ $totalLivreurs }}</div>
@@ -40,7 +40,7 @@
     <div class="card" style="margin-bottom: 2rem;">
         <div style="padding: 1.5rem;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                <h2 style="font-size: 1.25rem; font-weight: 700; color: #3A3A3A; margin: 0;">
+                <h2 style="font-size: 1.25rem; font-weight: 700; color: #000000; margin: 0;">
                     Liste des Livreurs ({{ $livreurs->total() }})
                 </h2>
                 <a href="{{ route('admin.livreurs.create') }}" class="btn btn-primary">
@@ -49,7 +49,7 @@
             </div>
 
             <!-- Filtres -->
-            <form method="GET" action="{{ route('admin.livreurs.index') }}" style="display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 1rem;">
+            <form method="GET" action="{{ route('admin.livreurs.index') }}" style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr auto; gap: 1rem;">
                 <input 
                     type="text" 
                     name="search" 
@@ -70,6 +70,21 @@
                         </option>
                     @endforeach
                 </select>
+                <select name="type_livreur" style="padding: 0.75rem; border: 2px solid #E5E5E5; border-radius: 8px;">
+                    <option value="">Tous types</option>
+                    <option value="classique" {{ request('type_livreur') == 'classique' ? 'selected' : '' }}>Classique</option>
+                    <option value="entreprise" {{ request('type_livreur') == 'entreprise' ? 'selected' : '' }}>Entreprise (lot)</option>
+                </select>
+                <select name="dispo" style="padding: 0.75rem; border: 2px solid #E5E5E5; border-radius: 8px;" title="Sans course assignée/en cours">
+                    <option value="">Courses (tous)</option>
+                    <option value="1" {{ request('dispo') === '1' ? 'selected' : '' }}>Sans course active</option>
+                    <option value="0" {{ request('dispo') === '0' ? 'selected' : '' }}>Avec course active</option>
+                </select>
+                <select name="dispo_app" style="padding: 0.75rem; border: 2px solid #E5E5E5; border-radius: 8px;" title="Statut déclaré dans l’app mobile">
+                    <option value="">App (tous)</option>
+                    <option value="1" {{ request('dispo_app') === '1' ? 'selected' : '' }}>App disponible</option>
+                    <option value="0" {{ request('dispo_app') === '0' ? 'selected' : '' }}>App indisponible</option>
+                </select>
                 <button type="submit" class="btn btn-secondary">Filtrer</button>
             </form>
         </div>
@@ -81,11 +96,14 @@
             <table style="width: 100%; border-collapse: collapse;">
                 <thead style="background-color: #FDFBF8; border-bottom: 2px solid #E5E5E5;">
                     <tr>
-                        <th style="padding: 1rem; text-align: left; font-weight: 700; color: #3A3A3A;">Livreur</th>
-                        <th style="padding: 1rem; text-align: left; font-weight: 700; color: #3A3A3A;">Contact</th>
-                        <th style="padding: 1rem; text-align: left; font-weight: 700; color: #3A3A3A;">Entreprise</th>
-                        <th style="padding: 1rem; text-align: center; font-weight: 700; color: #3A3A3A;">Statut</th>
-                        <th style="padding: 1rem; text-align: center; font-weight: 700; color: #3A3A3A;">Actions</th>
+                        <th style="padding: 1rem; text-align: left; font-weight: 700; color: #000000;">Livreur</th>
+                        <th style="padding: 1rem; text-align: left; font-weight: 700; color: #000000;">Contact</th>
+                        <th style="padding: 1rem; text-align: center; font-weight: 700; color: #000000;">Type</th>
+                        <th style="padding: 1rem; text-align: center; font-weight: 700; color: #000000;">Dispo app</th>
+                        <th style="padding: 1rem; text-align: left; font-weight: 700; color: #000000;">Entrepôt</th>
+                        <th style="padding: 1rem; text-align: left; font-weight: 700; color: #000000;">Entreprise(s)</th>
+                        <th style="padding: 1rem; text-align: center; font-weight: 700; color: #000000;">Statut</th>
+                        <th style="padding: 1rem; text-align: center; font-weight: 700; color: #000000;">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -93,11 +111,11 @@
                     <tr style="border-bottom: 1px solid #E5E5E5;">
                         <td style="padding: 1rem;">
                             <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                <div style="width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, #D9542A, #F7B801); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 1.25rem;">
+                                <div style="width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, #FF0000, #CC0000); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 1.25rem;">
                                     {{ strtoupper(substr($livreur->name, 0, 1)) }}
                                 </div>
                                 <div>
-                                    <div style="font-weight: 600; color: #3A3A3A;">{{ $livreur->name }}</div>
+                                    <div style="font-weight: 600; color: #000000;">{{ $livreur->name }}</div>
                                     <div style="font-size: 0.875rem; color: #666;">ID: #{{ $livreur->id }}</div>
                                 </div>
                             </div>
@@ -107,6 +125,43 @@
                                 <div style="margin-bottom: 0.25rem;">{{ $livreur->email }}</div>
                                 <div style="color: #666;">{{ $livreur->telephone }}</div>
                             </div>
+                        </td>
+                        <td style="padding: 1rem; text-align: center; font-size: 0.875rem;">
+                            @php
+                                $t = $livreur->type_livreur;
+                            @endphp
+                            @if($t === 'entreprise')
+                                <span class="badge" style="background-color: rgba(25,118,210,0.12); color: #1976D2; font-weight: 700;">Entreprise</span>
+                            @elseif($t === 'classique')
+                                <span class="badge" style="background-color: rgba(76,175,80,0.12); color: #4CAF50; font-weight: 700;">Classique</span>
+                            @else
+                                <span style="color: #999;">—</span>
+                            @endif
+                        </td>
+                        <td style="padding: 1rem; text-align: center; font-size: 0.8rem;">
+                            @php
+                                $appDispo = $livreur->is_dispo ?? true;
+                            @endphp
+                            @if($appDispo)
+                                <span class="badge" style="background-color: rgba(76,175,80,0.15); color: #2E7D32; font-weight: 700;">Disponible</span>
+                            @else
+                                <span class="badge" style="background-color: rgba(239,68,68,0.15); color: #CC0000; font-weight: 700; cursor: help;"
+                                      title="{{ $livreur->indispo_reason ? e($livreur->indispo_reason) : 'Indisponible' }}">
+                                    Indisponible
+                                </span>
+                                @if($livreur->indispo_reason)
+                                    <div style="font-size: 0.7rem; color: #666; margin-top: 0.25rem; max-width: 140px; margin-left: auto; margin-right: auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="{{ e($livreur->indispo_reason) }}">
+                                        {{ \Illuminate\Support\Str::limit($livreur->indispo_reason, 40) }}
+                                    </div>
+                                @endif
+                            @endif
+                        </td>
+                        <td style="padding: 1rem; font-size: 0.875rem;">
+                            @if($livreur->warehouse)
+                                <span style="color: #000000;">{{ $livreur->warehouse->name }}</span>
+                            @else
+                                <span style="color: #999;">—</span>
+                            @endif
                         </td>
                         <td style="padding: 1rem;">
                             @if($livreur->entreprises->count() > 0)
@@ -132,7 +187,7 @@
                         <td style="padding: 1rem;">
                             <div style="display: flex; gap: 0.5rem; justify-content: center;">
                                 <!-- Voir -->
-                                <a href="{{ route('admin.livreurs.show', $livreur->id) }}" class="btn-icon" style="background-color: #3A3A3A;" title="Voir détails">
+                                <a href="{{ route('admin.livreurs.show', $livreur->id) }}" class="btn-icon" style="background-color: #000000;" title="Voir détails">
                                     <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
@@ -161,7 +216,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" style="padding: 3rem; text-align: center; color: #666;">
+                        <td colspan="8" style="padding: 3rem; text-align: center; color: #666;">
                             <svg style="width: 64px; height: 64px; margin: 0 auto 1rem; opacity: 0.5;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
                             </svg>
@@ -185,7 +240,7 @@
     <!-- Modal Affecter Entreprises (Multiple) -->
     <div id="affectModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999; align-items: center; justify-content: center;">
         <div style="background: white; border-radius: 16px; padding: 2rem; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;">
-            <h3 style="font-size: 1.5rem; font-weight: 700; color: #3A3A3A; margin-bottom: 0.5rem;">
+            <h3 style="font-size: 1.5rem; font-weight: 700; color: #000000; margin-bottom: 0.5rem;">
                 Gérer les entreprises
             </h3>
             <p id="affectLivreurName" style="color: #666; margin-bottom: 1.5rem; font-size: 0.875rem;"></p>
@@ -193,8 +248,8 @@
             <form id="affectForm" method="POST">
                 @csrf
                 <div style="margin-bottom: 1.5rem;">
-                    <label style="display: block; font-weight: 600; margin-bottom: 0.75rem; color: #3A3A3A;">
-                        Sélectionnez les entreprises <span style="color: #D9542A;">*</span>
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.75rem; color: #000000;">
+                        Sélectionnez les entreprises <span style="color: #FF0000;">*</span>
                     </label>
                     <div style="max-height: 300px; overflow-y: auto; border: 2px solid #E5E5E5; border-radius: 8px; padding: 1rem;">
                         @foreach($entreprises as $entreprise)
@@ -207,14 +262,14 @@
                                     style="width: 18px; height: 18px; cursor: pointer;"
                                 >
                                 <div style="flex: 1;">
-                                    <div style="font-weight: 600; color: #3A3A3A;">{{ $entreprise->nom }}</div>
+                                    <div style="font-weight: 600; color: #000000;">{{ $entreprise->nom }}</div>
                                     <div style="font-size: 0.75rem; color: #666;">{{ $entreprise->ville }}, {{ $entreprise->pays }}</div>
                                 </div>
                             </label>
                         @endforeach
                     </div>
-                    <small style="color: #666; font-size: 0.75rem; margin-top: 0.5rem; display: block;">
-                        ✓ Cochez une ou plusieurs entreprises
+                    <small style="color: #666; font-size: 0.75rem; margin-top: 0.5rem; display: flex; align-items: center; gap: 0.25rem;">
+                        @include('admin.partials.icon', ['name' => 'check', 'size' => 12]) Cochez une ou plusieurs entreprises
                     </small>
                 </div>
 
@@ -297,7 +352,7 @@
         }
 
         .btn-icon-warning {
-            background-color: #F7B801;
+            background-color: #CC0000;
         }
 
         .btn-icon:hover {

@@ -13,6 +13,7 @@ class Categorie extends Model
         'nom',
         'logo',
         'est_disponible',
+        'qualite',
     ];
 
     protected $casts = [

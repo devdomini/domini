@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Commune;
 use App\Models\Entreprise;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class EntrepriseController extends Controller
      */
     public function index()
     {
-        $entreprises = Entreprise::with('employes')->orderBy('created_at', 'desc')->paginate(10);
+        $entreprises = Entreprise::with(['employes', 'commune.warehouse'])->orderBy('created_at', 'desc')->paginate(10);
         $totalEmployes = User::where('role', 'employe')->count();
         
         return view('admin.entreprises.index', compact('entreprises', 'totalEmployes'));
@@ -25,7 +26,16 @@ class EntrepriseController extends Controller
      */
     public function create()
     {
-        return view('admin.entreprises.create');
+        $communes = Commune::with('warehouse')->orderBy('nom')->get();
+        $commerciaux = User::query()
+            ->where('role', 'commercial')
+            ->where('is_active', true)
+            ->orderBy('name')
+            ->get(['id', 'name', 'email']);
+
+        $googleMapsApiKey = config('services.google_maps.api_key');
+
+        return view('admin.entreprises.create', compact('communes', 'commerciaux', 'googleMapsApiKey'));
     }
 
     /**
@@ -33,6 +43,8 @@ class EntrepriseController extends Controller
      */
     public function store(Request $request)
     {
+        $this->normalizeGpsCoordinatesOnRequest($request);
+
         $validated = $request->validate([
             'nom' => 'required|string|max:255',
             'adresse' => 'required|string',
@@ -41,6 +53,8 @@ class EntrepriseController extends Controller
             'numero' => 'nullable|string|max:20',
             'lat' => 'nullable|numeric|between:-90,90',
             'long' => 'nullable|numeric|between:-180,180',
+            'commune_id' => 'nullable|exists:communes,id',
+            'commercial_id' => 'nullable|exists:users,id',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ], [
             'nom.required' => 'Le nom de l\'entreprise est requis.',
@@ -57,6 +71,10 @@ class EntrepriseController extends Controller
 
         $validated['statut'] = $request->has('statut');
 
+        if (empty($validated['commercial_id'])) {
+            $validated['commercial_id'] = null;
+        }
+
         Entreprise::create($validated);
 
         return redirect()
@@ -70,8 +88,16 @@ class EntrepriseController extends Controller
     public function edit($id)
     {
         $entreprise = Entreprise::findOrFail($id);
-        
-        return view('admin.entreprises.edit', compact('entreprise'));
+        $communes = Commune::with('warehouse')->orderBy('nom')->get();
+        $commerciaux = User::query()
+            ->where('role', 'commercial')
+            ->where('is_active', true)
+            ->orderBy('name')
+            ->get(['id', 'name', 'email']);
+
+        $googleMapsApiKey = config('services.google_maps.api_key');
+
+        return view('admin.entreprises.edit', compact('entreprise', 'communes', 'commerciaux', 'googleMapsApiKey'));
     }
 
     /**
@@ -81,6 +107,8 @@ class EntrepriseController extends Controller
     {
         $entreprise = Entreprise::findOrFail($id);
 
+        $this->normalizeGpsCoordinatesOnRequest($request);
+
         $validated = $request->validate([
             'nom' => 'required|string|max:255',
             'adresse' => 'required|string',
@@ -89,6 +117,8 @@ class EntrepriseController extends Controller
             'numero' => 'nullable|string|max:20',
             'lat' => 'nullable|numeric|between:-90,90',
             'long' => 'nullable|numeric|between:-180,180',
+            'commune_id' => 'nullable|exists:communes,id',
+            'commercial_id' => 'nullable|exists:users,id',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ], [
             'nom.required' => 'Le nom de l\'entreprise est requis.',
@@ -108,6 +138,10 @@ class EntrepriseController extends Controller
         }
 
         $validated['statut'] = $request->has('statut');
+
+        if (empty($validated['commercial_id'])) {
+            $validated['commercial_id'] = null;
+        }
 
         $entreprise->update($validated);
 
@@ -142,5 +176,23 @@ class EntrepriseController extends Controller
         return redirect()
             ->route('admin.entreprises.index')
             ->with('success', 'Entreprise supprimée avec succès !');
+    }
+
+    /** Virgule → point, sans zéros finaux superflus (avant validation). */
+    private function normalizeGpsCoordinatesOnRequest(Request $request): void
+    {
+        foreach (['lat', 'long'] as $key) {
+            if (! $request->has($key)) {
+                continue;
+            }
+            $raw = $request->input($key);
+            if ($raw === null || $raw === '') {
+                continue;
+            }
+            $formatted = Entreprise::formatCoordinateForInput($raw);
+            if ($formatted !== null) {
+                $request->merge([$key => $formatted]);
+            }
+        }
     }
 }

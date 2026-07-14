@@ -26,17 +26,20 @@ class CategorieController extends Controller
             'nom' => 'required|string|max:255',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'est_disponible' => 'nullable|boolean',
+            'qualite' => 'nullable|in:classic,pro,premium',
         ], [
             'nom.required' => 'Le nom de la catégorie est obligatoire.',
             'nom.max' => 'Le nom ne peut pas dépasser 255 caractères.',
             'logo.image' => 'Le fichier doit être une image.',
             'logo.mimes' => 'Le logo doit être au format: jpeg, png, jpg, gif ou webp.',
             'logo.max' => 'La taille du logo ne peut pas dépasser 5 Mo.',
+            'qualite.in' => 'La qualité doit être: classic, pro ou premium.',
         ]);
 
         $data = [
             'nom' => $validated['nom'],
             'est_disponible' => $request->has('est_disponible') ? true : false,
+            'qualite' => $validated['qualite'] ?? 'classic',
         ];
 
         // Handle logo upload
@@ -66,17 +69,20 @@ class CategorieController extends Controller
             'nom' => 'required|string|max:255',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'est_disponible' => 'nullable|boolean',
+            'qualite' => 'nullable|in:classic,pro,premium',
         ], [
             'nom.required' => 'Le nom de la catégorie est obligatoire.',
             'nom.max' => 'Le nom ne peut pas dépasser 255 caractères.',
             'logo.image' => 'Le fichier doit être une image.',
             'logo.mimes' => 'Le logo doit être au format: jpeg, png, jpg, gif ou webp.',
             'logo.max' => 'La taille du logo ne peut pas dépasser 5 Mo.',
+            'qualite.in' => 'La qualité doit être: classic, pro ou premium.',
         ]);
 
         $data = [
             'nom' => $validated['nom'],
             'est_disponible' => $request->has('est_disponible') ? true : false,
+            'qualite' => $validated['qualite'] ?? $categorie->qualite ?? 'classic',
         ];
 
         // Handle logo upload

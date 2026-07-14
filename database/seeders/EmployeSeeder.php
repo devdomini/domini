@@ -39,12 +39,26 @@ class EmployeSeeder extends Seeder
             ['name' => 'Patrick Gnapa', 'email' => 'p.gnapa@nsia.ci', 'telephone' => '+225 07 56 78 90 12', 'id_entreprise' => 6, 'num_box' => 'F-602'],
         ];
 
+        $cree = 0;
+        $existants = 0;
+
         foreach ($employes as $employe) {
-            User::create(array_merge($employe, [
-                'role' => 'employe',
-                'password' => Hash::make('password123'),
-                'is_active' => true,
-            ]));
+            $user = User::firstOrCreate(
+                ['email' => $employe['email']],
+                array_merge($employe, [
+                    'role' => 'employe',
+                    'password' => Hash::make('password123'),
+                    'is_active' => true,
+                ])
+            );
+
+            if ($user->wasRecentlyCreated) {
+                $cree++;
+            } else {
+                $existants++;
+            }
         }
+
+        $this->command?->info("Employés : {$cree} créé(s), {$existants} déjà présent(s) (emails uniques).");
     }
 }

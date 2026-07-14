@@ -7,7 +7,7 @@
     <!-- Actions Bar -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
         <div>
-            <h2 style="font-size: 1.5rem; font-weight: 700; color: #3A3A3A;">Tous les abonnements</h2>
+            <h2 style="font-size: 1.5rem; font-weight: 700; color: #000000;">Tous les abonnements</h2>
             <p style="color: #666; margin-top: 0.25rem;">Gérez les souscriptions des entreprises partenaires</p>
         </div>
         <a href="{{ route('admin.abonnements.create') }}" class="btn btn-primary">
@@ -17,7 +17,7 @@
 
     <!-- Stats Cards -->
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
-        <div style="background: linear-gradient(135deg, #3A3A3A, #2A2A2A); border-radius: 12px; padding: 1.5rem; color: white;">
+        <div style="background: linear-gradient(135deg, #1A1A1A, #000000); border-radius: 12px; padding: 1.5rem; color: white;">
             <div style="font-size: 0.875rem; opacity: 0.9;">Total Abonnements</div>
             <div style="font-size: 2rem; font-weight: 900; margin: 0.5rem 0;">{{ $stats['total'] }}</div>
         </div>
@@ -27,7 +27,7 @@
             <div style="font-size: 2rem; font-weight: 900; margin: 0.5rem 0;">{{ $stats['actifs'] }}</div>
         </div>
 
-        <div style="background: linear-gradient(135deg, #F7B801, #e5a900); border-radius: 12px; padding: 1.5rem; color: white;">
+        <div style="background: linear-gradient(135deg, #CC0000, #990000); border-radius: 12px; padding: 1.5rem; color: white;">
             <div style="font-size: 0.875rem; opacity: 0.9;">Suspendus</div>
             <div style="font-size: 2rem; font-weight: 900; margin: 0.5rem 0;">{{ $stats['suspendus'] }}</div>
         </div>
@@ -93,12 +93,12 @@
                                 <div style="font-size: 0.75rem; color: #999;">{{ $abonnement->fonction }}</div>
                             </td>
                             <td>{{ $abonnement->numero }}</td>
-                            <td style="text-align: center; font-weight: 700; color: #D9542A;">{{ $abonnement->nbre_employe }}</td>
+                            <td style="text-align: center; font-weight: 700; color: #FF0000;">{{ $abonnement->nbre_employe }}</td>
                             <td>
                                 @if($abonnement->statut_subvention_commande === 'totale')
                                     <span style="color: #10B981; font-weight: 600;">100%</span>
                                 @elseif($abonnement->statut_subvention_commande === 'partielle')
-                                    <span style="color: #F7B801; font-weight: 600;">{{ $abonnement->pourcentage }}%</span>
+                                    <span style="color: #CC0000; font-weight: 600;">{{ $abonnement->pourcentage }}%</span>
                                 @else
                                     <span style="color: #999;">Aucune</span>
                                 @endif
@@ -117,7 +117,7 @@
                                     $statusColors = [
                                         'actif' => 'background-color: #E8F5E9; color: #2d9248;',
                                         'suspendu' => 'background-color: #FFF3E0; color: #E65100;',
-                                        'resilie' => 'background-color: #FFEBEE; color: #C62828;',
+                                        'resilie' => 'background-color: #FFEBEE; color: #CC0000;',
                                         'expire' => 'background-color: #F5F5F5; color: #666;'
                                     ];
                                     $statusLabels = [
@@ -141,7 +141,7 @@
                                     </a>
 
                                     @if($abonnement->status === 'actif')
-                                        <button onclick="showSuspendreModal({{ $abonnement->id }})" class="btn-icon" style="background-color: #F7B801;" title="Suspendre">
+                                        <button onclick="showSuspendreModal({{ $abonnement->id }})" class="btn-icon" style="background-color: #CC0000;" title="Suspendre">
                                             <svg style="width: 14px; height: 14px; color: white;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                             </svg>
@@ -175,7 +175,7 @@
                                     @endif
 
                                     @if($abonnement->status === 'actif')
-                                        <a href="{{ route('admin.abonnements.edit', $abonnement->id) }}" class="btn-icon" style="background-color: #F7B801;" title="Modifier">
+                                        <a href="{{ route('admin.abonnements.edit', $abonnement->id) }}" class="btn-icon" style="background-color: #CC0000;" title="Modifier">
                                             <svg style="width: 14px; height: 14px; color: white;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                                             </svg>
@@ -213,7 +213,7 @@
                                     @csrf
                                     @method('PATCH')
                                     <div style="display: flex; gap: 1rem;">
-                                        <button type="submit" class="btn" style="flex: 1; background-color: #F7B801; color: white;">Confirmer</button>
+                                        <button type="submit" class="btn" style="flex: 1; background-color: #CC0000; color: white;">Confirmer</button>
                                         <button type="button" onclick="hideSuspendreModal({{ $abonnement->id }})" class="btn btn-secondary">Annuler</button>
                                     </div>
                                 </form>

@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Connexion Admin - Domini</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,7 +18,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #D9542A 0%, #3A3A3A 100%);
+            background: linear-gradient(135deg, #FF0000 0%, #000000 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -61,7 +62,7 @@
 
         .alert-error {
             background-color: #FFEBEE;
-            color: #C62828;
+            color: #CC0000;
             border: 1px solid #EF9A9A;
         }
 
@@ -95,15 +96,15 @@
 
         .form-group input:focus {
             outline: none;
-            border-color: #D9542A;
+            border-color: #FF0000;
         }
 
         .form-group input.error {
-            border-color: #C62828;
+            border-color: #CC0000;
         }
 
         .error-message {
-            color: #C62828;
+            color: #CC0000;
             font-size: 0.75rem;
             margin-top: 0.5rem;
         }
@@ -130,7 +131,7 @@
         .submit-btn {
             width: 100%;
             padding: 1rem;
-            background-color: #D9542A;
+            background-color: #FF0000;
             color: white;
             border: none;
             border-radius: 8px;
@@ -141,9 +142,9 @@
         }
 
         .submit-btn:hover {
-            background-color: #c13d18;
+            background-color: #CC0000;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(217, 84, 42, 0.3);
+            box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
         }
 
         .submit-btn:active {
@@ -156,7 +157,7 @@
         }
 
         .forgot-password a {
-            color: #D9542A;
+            color: #FF0000;
             text-decoration: none;
             font-size: 0.875rem;
             font-weight: 600;

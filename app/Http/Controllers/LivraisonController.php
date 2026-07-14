@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Livraison;
+use App\Services\LivraisonStatutSync;
 use Illuminate\Http\Request;
 
 class LivraisonController extends Controller
@@ -46,11 +47,10 @@ class LivraisonController extends Controller
             $data['heure_prise_en_charge'] = now();
         } elseif ($validated['statut'] === 'livree') {
             $data['heure_livraison'] = now();
-            // Mettre à jour le statut de la commande
-            $livraison->commande->update(['statut_livraison' => 'livree']);
         }
 
         $livraison->update($data);
+        LivraisonStatutSync::syncCommandeFromLivraison($livraison->fresh());
 
         return redirect()->back()->with('success', 'Statut de livraison mis à jour.');
     }

@@ -7,7 +7,7 @@
     <!-- Actions Bar -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
         <div>
-            <h2 style="font-size: 1.5rem; font-weight: 700; color: #3A3A3A;">Tous les paiements</h2>
+            <h2 style="font-size: 1.5rem; font-weight: 700; color: #000000;">Tous les paiements</h2>
             <p style="color: #666; margin-top: 0.25rem;">Traçabilité complète des transactions</p>
         </div>
     </div>
@@ -18,7 +18,7 @@
             <div style="font-size: 0.875rem; opacity: 0.9;">Total Validé</div>
             <div style="font-size: 1.5rem; font-weight: 900; margin: 0.5rem 0;">{{ number_format($stats['total'], 0, ',', ' ') }} FCFA</div>
         </div>
-        <div style="background: linear-gradient(135deg, #F7B801, #e5a900); border-radius: 12px; padding: 1.5rem; color: white;">
+        <div style="background: linear-gradient(135deg, #CC0000, #990000); border-radius: 12px; padding: 1.5rem; color: white;">
             <div style="font-size: 0.875rem; opacity: 0.9;">En Attente</div>
             <div style="font-size: 1.5rem; font-weight: 900; margin: 0.5rem 0;">{{ number_format($stats['en_attente'], 0, ',', ' ') }} FCFA</div>
         </div>
@@ -26,7 +26,7 @@
             <div style="font-size: 0.875rem; opacity: 0.9;">Remboursé</div>
             <div style="font-size: 1.5rem; font-weight: 900; margin: 0.5rem 0;">{{ number_format($stats['rembourse'], 0, ',', ' ') }} FCFA</div>
         </div>
-        <div style="background: linear-gradient(135deg, #3A3A3A, #2A2A2A); border-radius: 12px; padding: 1.5rem; color: white;">
+        <div style="background: linear-gradient(135deg, #1A1A1A, #000000); border-radius: 12px; padding: 1.5rem; color: white;">
             <div style="font-size: 0.875rem; opacity: 0.9;">Total Transactions</div>
             <div style="font-size: 2rem; font-weight: 900; margin: 0.5rem 0;">{{ \App\Models\Paiement::count() }}</div>
         </div>
@@ -60,7 +60,7 @@
                 <option value="virement">Virement</option>
             </select>
             
-            <button type="submit" style="padding: 0.5rem 1rem; background: #D9542A; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">
+            <button type="submit" style="padding: 0.5rem 1rem; background: #FF0000; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">
                 Filtrer
             </button>
         </form>
@@ -118,7 +118,7 @@
                             </td>
                             <td>
                                 @if($paiement->commande)
-                                <a href="{{ route('admin.commandes.show', $paiement->commande->id) }}" style="color: #D9542A; text-decoration: none; font-weight: 600;">
+                                <a href="{{ route('admin.commandes.show', $paiement->commande->id) }}" style="color: #FF0000; text-decoration: none; font-weight: 600;">
                                     {{ $paiement->commande->ref }}
                                 </a>
                                 @else
@@ -147,7 +147,7 @@
                                     $statutBadges = [
                                         'en_attente' => 'background-color: #FFF3E0; color: #E65100;',
                                         'valide' => 'background-color: #E8F5E9; color: #2d9248;',
-                                        'echoue' => 'background-color: #FFEBEE; color: #C62828;',
+                                        'echoue' => 'background-color: #FFEBEE; color: #CC0000;',
                                         'rembourse' => 'background-color: #E3F2FD; color: #1976D2;'
                                     ];
                                     $statutLabels = [
@@ -169,7 +169,9 @@
                         @empty
                         <tr>
                             <td colspan="8" style="text-align: center; padding: 3rem; color: #999;">
-                                <div style="font-size: 3rem; margin-bottom: 1rem;">💰</div>
+                                <div style="font-size: 3rem; margin-bottom: 1rem; color: #999; display: flex; justify-content: center;">
+                                    @include('admin.partials.icon', ['name' => 'currency', 'size' => 48])
+                                </div>
                                 <p>Aucun paiement trouvé</p>
                             </td>
                         </tr>

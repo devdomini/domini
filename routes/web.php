@@ -3,10 +3,16 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
+use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 
-// Routes publiques
+// Site vitrine (fichiers statiques dans public/vitrine/)
+Route::get('/vitrine', function () {
+    return redirect('/vitrine/index.html', 302);
+});
+
+// Routes publiques — page d’accueil = landing Domini
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/vitrine/index.html', 302);
 });
 
 Route::get('/notre-menu', [App\Http\Controllers\MenuPublicController::class, 'index'])->name('menu.public');
@@ -28,16 +34,76 @@ Route::get('/login', function () {
     return redirect()->route('admin.login');
 })->name('login');
 
-// Routes Admin
-Route::prefix('admin')->name('admin.')->group(function () {
-    // Routes accessibles sans authentification
-    Route::get('/login', [AdminController::class, 'showLoginForm'])->name('login');
-    Route::post('/login', [AdminController::class, 'login'])->name('login.post');
-    
-    // Routes protégées (nécessitent authentification)
-    Route::middleware('auth')->group(function () {
+// Route pour la réinitialisation du mot de passe (nécessaire pour Password::sendResetLink)
+Route::get('/reset-password/{token}', function () {
+    return redirect('/admin/login');
+})->name('password.reset');
+
+// Routes Admin + commercial (URLs sous /admin, noms commercial.* distincts de admin.*)
+Route::prefix('admin')->group(function () {
+    Route::name('admin.')->group(function () {
+        Route::get('/login', [AdminController::class, 'showLoginForm'])->name('login');
+        Route::middleware('throttle:5,1')->group(function () {
+            Route::post('/login', [AdminController::class, 'login'])->name('login.post');
+        });
+    });
+
+    Route::middleware(['auth', 'backoffice'])->group(function () {
+        Route::post('/logout', [AdminController::class, 'logout'])->name('admin.logout');
+
+        Route::prefix('messenger-api')
+            ->withoutMiddleware([ValidateCsrfToken::class])
+            ->group(function () {
+            Route::get('/threads/{id}', [App\Http\Controllers\MessengerWebController::class, 'show']);
+            Route::post('/threads/{id}/messages', [App\Http\Controllers\MessengerWebController::class, 'sendMessage']);
+            Route::post('/threads/{id}/close', [App\Http\Controllers\MessengerWebController::class, 'close']);
+            Route::post('/threads/{id}/reopen', [App\Http\Controllers\MessengerWebController::class, 'reopen']);
+        });
+
+        // Espace commercial (même login /admin/login) — noms route('commercial.*')
+        Route::prefix('commercial')->name('commercial.')->group(function () {
+            Route::get('/dashboard', [App\Http\Controllers\Commercial\DashboardController::class, 'index'])->name('dashboard');
+            Route::prefix('entreprises')->name('entreprises.')->group(function () {
+                Route::get('/', [App\Http\Controllers\Commercial\EntrepriseController::class, 'index'])->name('index');
+                Route::get('/create', [App\Http\Controllers\Commercial\EntrepriseController::class, 'create'])->name('create');
+                Route::post('/', [App\Http\Controllers\Commercial\EntrepriseController::class, 'store'])->name('store');
+                Route::get('/{id}', [App\Http\Controllers\Commercial\EntrepriseController::class, 'show'])->name('show');
+                Route::get('/{id}/edit', [App\Http\Controllers\Commercial\EntrepriseController::class, 'edit'])->name('edit');
+                Route::put('/{id}', [App\Http\Controllers\Commercial\EntrepriseController::class, 'update'])->name('update');
+            });
+            Route::post('/entreprises/{entrepriseId}/employes', [App\Http\Controllers\Commercial\EmployeController::class, 'store'])->name('employes.store');
+            Route::put('/employes/{employeId}', [App\Http\Controllers\Commercial\EmployeController::class, 'update'])->name('employes.update');
+            Route::get('/boxes/create/{entrepriseId}', [App\Http\Controllers\Commercial\BoxController::class, 'create'])->name('boxes.create');
+            Route::post('/boxes', [App\Http\Controllers\Commercial\BoxController::class, 'store'])->name('boxes.store');
+            Route::get('/boxes/{id}', [App\Http\Controllers\Commercial\BoxController::class, 'show'])->name('boxes.show');
+            Route::post('/boxes/{boxId}/casiers/{casierId}/assign', [App\Http\Controllers\Commercial\BoxController::class, 'assignEmploye'])->name('boxes.casiers.assign');
+            Route::post('/boxes/{boxId}/casiers/{casierId}/unassign', [App\Http\Controllers\Commercial\BoxController::class, 'unassignEmploye'])->name('boxes.casiers.unassign');
+            Route::get('/abonnements', [App\Http\Controllers\Commercial\AbonnementController::class, 'index'])->name('abonnements.index');
+            Route::get('/paiements', [App\Http\Controllers\Commercial\PaiementController::class, 'index'])->name('paiements.index');
+            Route::get('/impayes', [App\Http\Controllers\Commercial\PaiementController::class, 'impayes'])->name('impayes.index');
+            Route::prefix('support')->name('support.')->group(function () {
+                Route::get('/', [App\Http\Controllers\Commercial\SupportController::class, 'index'])->name('index');
+                Route::get('/{id}', [App\Http\Controllers\Commercial\SupportController::class, 'show'])->name('show');
+                Route::post('/{id}/messages', [App\Http\Controllers\Commercial\SupportController::class, 'sendMessage'])->name('send');
+                Route::post('/{id}/close', [App\Http\Controllers\Commercial\SupportController::class, 'close'])->name('close');
+                Route::post('/{id}/reopen', [App\Http\Controllers\Commercial\SupportController::class, 'reopen'])->name('reopen');
+            });
+        });
+
+        Route::middleware('admin.only')->name('admin.')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-        Route::post('/logout', [AdminController::class, 'logout'])->name('logout');
+
+        // Campagnes push (promo, fidélisation, annonces)
+        Route::get('/campagnes', [App\Http\Controllers\Admin\CampagneController::class, 'index'])->name('campagnes.index');
+        Route::post('/campagnes/send', [App\Http\Controllers\Admin\CampagneController::class, 'send'])->name('campagnes.send');
+
+        Route::prefix('support')->name('support.')->group(function () {
+            Route::get('/', [App\Http\Controllers\Admin\SupportController::class, 'index'])->name('index');
+            Route::get('/{id}', [App\Http\Controllers\Admin\SupportController::class, 'show'])->name('show');
+            Route::post('/{id}/messages', [App\Http\Controllers\Admin\SupportController::class, 'sendMessage'])->name('send');
+            Route::post('/{id}/close', [App\Http\Controllers\Admin\SupportController::class, 'close'])->name('close');
+            Route::post('/{id}/reopen', [App\Http\Controllers\Admin\SupportController::class, 'reopen'])->name('reopen');
+        });
         
         // Gestion des utilisateurs
         Route::prefix('users')->name('users.')->group(function () {
@@ -60,6 +126,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::put('/{id}', [App\Http\Controllers\EntrepriseController::class, 'update'])->name('update');
             Route::delete('/{id}', [App\Http\Controllers\EntrepriseController::class, 'destroy'])->name('destroy');
         });
+
+        // Gestion des entrepôts
+        Route::resource('warehouses', App\Http\Controllers\Admin\WarehouseController::class);
+
+        // Communes (liées à un entrepôt : nom, lat, long)
+        Route::resource('communes', App\Http\Controllers\Admin\CommuneController::class)->except(['show']);
+
+        // Trajets de livraison (ordre des entreprises par entrepôt)
+        Route::get('trajets', [App\Http\Controllers\Admin\TrajetController::class, 'index'])->name('trajets.index');
+        Route::get('trajets/{warehouse}/edit', [App\Http\Controllers\Admin\TrajetController::class, 'edit'])->name('trajets.edit');
+        Route::get('trajets/{warehouse}/carte', [App\Http\Controllers\Admin\TrajetController::class, 'map'])->name('trajets.map');
+        Route::post('trajets/{warehouse}/auto-proximite', [App\Http\Controllers\Admin\TrajetController::class, 'autoProximity'])->name('trajets.auto-proximite');
+        Route::put('trajets/{warehouse}', [App\Http\Controllers\Admin\TrajetController::class, 'update'])->name('trajets.update');
 
         // Gestion des livreurs
         Route::prefix('livreurs')->name('livreurs.')->group(function () {
@@ -127,6 +206,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/{id}/changer-statut', [App\Http\Controllers\LivraisonController::class, 'changerStatut'])->name('changer-statut');
         });
 
+        // Traffic livreur (carte temps réel)
+        Route::get('/traffic-livreur', [App\Http\Controllers\Admin\TrafficLivreurController::class, 'index'])->name('traffic-livreur.index');
+        Route::get('/traffic-livreur/data', [App\Http\Controllers\Admin\TrafficLivreurController::class, 'data'])->name('traffic-livreur.data');
+
         // Gestion des paiements
         Route::prefix('paiements')->name('paiements.')->group(function () {
             Route::get('/', [App\Http\Controllers\PaiementController::class, 'index'])->name('index');
@@ -157,6 +240,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::delete('/{box}', [App\Http\Controllers\BoxController::class, 'destroy'])->name('destroy');
             Route::patch('/{box}/toggle', [App\Http\Controllers\BoxController::class, 'toggleStatus'])->name('toggle');
             Route::post('/{box}/casiers', [App\Http\Controllers\BoxController::class, 'ajouterCasiers'])->name('casiers.ajouter');
+            // Attribution employé ⇄ casier
+            Route::get('/{box}/employes/search', [App\Http\Controllers\BoxController::class, 'searchEmployes'])->name('employes.search');
+            Route::patch('/{box}/casiers/{casier}/assign', [App\Http\Controllers\BoxController::class, 'assignEmploye'])->name('casiers.assign');
+            Route::patch('/{box}/casiers/{casier}/unassign', [App\Http\Controllers\BoxController::class, 'unassignEmploye'])->name('casiers.unassign');
+            Route::patch('/{box}/casiers/{casier}/status', [App\Http\Controllers\BoxController::class, 'updateCasierStatus'])->name('casiers.status');
+            // Impression QR casiers
+            Route::get('/{box}/casiers/list', [App\Http\Controllers\BoxController::class, 'listCasiers'])->name('casiers.list');
+            Route::get('/{box}/casiers/print', [App\Http\Controllers\BoxController::class, 'printCasiersQRCodes'])->name('casiers.print');
         });
+        }); // admin.only
     });
 });

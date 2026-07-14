@@ -7,14 +7,16 @@
     <div class="card" style="max-width: 600px; margin: 0 auto;">
         <div style="padding: 2rem;">
             <div style="margin-bottom: 2rem;">
-                <a href="{{ route('admin.livreurs.index') }}" style="color: #D9542A; text-decoration: none; font-weight: 600;">
+                <a href="{{ route('admin.livreurs.index') }}" style="color: #FF0000; text-decoration: none; font-weight: 600;">
                     ← Retour à la liste
                 </a>
             </div>
 
             <div style="text-align: center; margin-bottom: 2rem; padding: 1.5rem; background: #F5F5F5; border-radius: 12px;">
-                <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🔑</div>
-                <h3 style="font-size: 1.25rem; font-weight: 700; color: #3A3A3A; margin-bottom: 0.5rem;">
+                <div style="margin-bottom: 0.5rem; color: #FF0000; display: flex; justify-content: center;">
+                    @include('admin.partials.icon', ['name' => 'key', 'size' => 40])
+                </div>
+                <h3 style="font-size: 1.25rem; font-weight: 700; color: #000000; margin-bottom: 0.5rem;">
                     {{ $livreur->name }}
                 </h3>
                 <p style="color: #666; font-size: 0.875rem;">{{ $livreur->email }}</p>
@@ -27,8 +29,8 @@
                 <div style="display: grid; gap: 1.5rem;">
                     <!-- Nouveau mot de passe -->
                     <div>
-                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #3A3A3A;">
-                            Nouveau mot de passe <span style="color: #D9542A;">*</span>
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #000000;">
+                            Nouveau mot de passe <span style="color: #FF0000;">*</span>
                         </label>
                         <input 
                             type="password" 
@@ -45,8 +47,8 @@
 
                     <!-- Confirmer le mot de passe -->
                     <div>
-                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #3A3A3A;">
-                            Confirmer le mot de passe <span style="color: #D9542A;">*</span>
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #000000;">
+                            Confirmer le mot de passe <span style="color: #FF0000;">*</span>
                         </label>
                         <input 
                             type="password" 
@@ -60,7 +62,9 @@
 
                     <!-- Info -->
                     <div style="background: #DBEAFE; padding: 1rem; border-radius: 8px; border-left: 4px solid #3B82F6;">
-                        <div style="font-weight: 600; color: #1E40AF; margin-bottom: 0.5rem;">ℹ️ Information</div>
+                        <div style="font-weight: 600; color: #1E40AF; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.375rem;">
+                            @include('admin.partials.icon', ['name' => 'information', 'size' => 16]) Information
+                        </div>
                         <ul style="margin: 0; padding-left: 1.5rem; color: #1E3A8A; font-size: 0.875rem;">
                             <li>Le mot de passe doit contenir au moins 6 caractères</li>
                             <li>Le livreur devra utiliser ce nouveau mot de passe pour se connecter</li>

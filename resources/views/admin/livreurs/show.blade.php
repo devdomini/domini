@@ -6,7 +6,7 @@
 @section('content')
     <div style="max-width: 1200px; margin: 0 auto;">
         <div style="margin-bottom: 2rem;">
-            <a href="{{ route('admin.livreurs.index') }}" style="color: #D9542A; text-decoration: none; font-weight: 600;">
+            <a href="{{ route('admin.livreurs.index') }}" style="color: #FF0000; text-decoration: none; font-weight: 600;">
                 ← Retour à la liste
             </a>
         </div>
@@ -16,27 +16,49 @@
             <div style="padding: 2rem;">
                 <div style="display: grid; grid-template-columns: auto 1fr auto; gap: 2rem; align-items: center;">
                     <!-- Avatar -->
-                    <div style="width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, #D9542A, #F7B801); display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 3rem;">
+                    <div style="width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, #FF0000, #CC0000); display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 3rem;">
                         {{ strtoupper(substr($livreur->name, 0, 1)) }}
                     </div>
 
                     <!-- Info -->
                     <div>
-                        <h2 style="font-size: 2rem; font-weight: 800; color: #3A3A3A; margin-bottom: 0.5rem;">
+                        <h2 style="font-size: 2rem; font-weight: 800; color: #000000; margin-bottom: 0.5rem;">
                             {{ $livreur->name }}
                         </h2>
-                        <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;">
                             @if($livreur->is_active)
                                 <span class="badge badge-success">Actif</span>
                             @else
                                 <span class="badge badge-danger">Inactif</span>
                             @endif
-                            <span class="badge" style="background-color: #3A3A3A; color: white;">ID: #{{ $livreur->id }}</span>
+                            @if($livreur->is_dispo ?? true)
+                                <span class="badge" style="background-color: rgba(76,175,80,0.2); color: #2E7D32;">App : disponible</span>
+                            @else
+                                <span class="badge" style="background-color: rgba(239,68,68,0.2); color: #CC0000;">App : indisponible</span>
+                            @endif
+                            <span class="badge" style="background-color: #000000; color: white;">ID: #{{ $livreur->id }}</span>
                         </div>
+                        @if(!($livreur->is_dispo ?? true) && $livreur->indispo_reason)
+                            <div style="background: #FEF2F2; border: 1px solid #FECACA; border-radius: 8px; padding: 0.75rem 1rem; margin-bottom: 1rem; font-size: 0.875rem; color: #991B1B;">
+                                <strong>Raison indisponibilité (app) :</strong> {{ $livreur->indispo_reason }}
+                                @if($livreur->indispo_at)
+                                    <div style="margin-top: 0.35rem; color: #666; font-size: 0.8rem;">{{ $livreur->indispo_at->format('d/m/Y H:i') }}</div>
+                                @endif
+                            </div>
+                        @endif
                         <div style="color: #666;">
-                            <div style="margin-bottom: 0.25rem;">📧 {{ $livreur->email }}</div>
-                            <div style="margin-bottom: 0.25rem;">📱 {{ $livreur->telephone }}</div>
-                            <div>📅 Inscrit le {{ $livreur->created_at->format('d/m/Y') }}</div>
+                            <div style="margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.375rem;">
+                                @include('admin.partials.icon', ['name' => 'mail', 'size' => 14]) {{ $livreur->email }}
+                            </div>
+                            <div style="margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.375rem;">
+                                @include('admin.partials.icon', ['name' => 'phone', 'size' => 14]) {{ $livreur->telephone }}
+                            </div>
+                            <div style="margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.375rem;">
+                                @include('admin.partials.icon', ['name' => 'building', 'size' => 14]) Entrepôt : {{ $livreur->warehouse?->name ?? '—' }}
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.375rem;">
+                                @include('admin.partials.icon', ['name' => 'calendar', 'size' => 14]) Inscrit le {{ $livreur->created_at->format('d/m/Y') }}
+                            </div>
                         </div>
                     </div>
 
@@ -58,7 +80,7 @@
             <div class="card">
                 <div style="padding: 2rem;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                        <h3 style="font-size: 1.25rem; font-weight: 700; color: #3A3A3A; margin: 0;">
+                        <h3 style="font-size: 1.25rem; font-weight: 700; color: #000000; margin: 0;">
                             Entreprises affectées ({{ $livreur->entreprises->count() }})
                         </h3>
                         <button onclick="openAffectModal()" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">
@@ -71,11 +93,11 @@
                             @foreach($livreur->entreprises as $entreprise)
                                 <div style="background: #F0FDF4; padding: 1rem; border-radius: 8px; border: 2px solid #10B981; display: flex; justify-content: space-between; align-items: center;">
                                     <div>
-                                        <div style="font-weight: 700; color: #3A3A3A; margin-bottom: 0.25rem;">
+                                        <div style="font-weight: 700; color: #000000; margin-bottom: 0.25rem;">
                                             {{ $entreprise->nom }}
                                         </div>
-                                        <div style="color: #666; font-size: 0.75rem;">
-                                            📍 {{ $entreprise->ville }}, {{ $entreprise->pays }}
+                                        <div style="color: #666; font-size: 0.75rem; display: flex; align-items: center; gap: 0.25rem;">
+                                            @include('admin.partials.icon', ['name' => 'map-pin', 'size' => 12]) {{ $entreprise->ville }}, {{ $entreprise->pays }}
                                         </div>
                                     </div>
                                     <form action="{{ route('admin.livreurs.remove-entreprise', $livreur->id) }}" method="POST" onsubmit="return confirm('Retirer {{ $entreprise->nom }} ?')">
@@ -112,12 +134,12 @@
             <!-- Statistiques -->
             <div class="card">
                 <div style="padding: 2rem;">
-                    <h3 style="font-size: 1.25rem; font-weight: 700; color: #3A3A3A; margin-bottom: 1.5rem;">
+                    <h3 style="font-size: 1.25rem; font-weight: 700; color: #000000; margin-bottom: 1.5rem;">
                         Statistiques de livraison
                     </h3>
                     
                     <div style="display: grid; gap: 1rem;">
-                        <div style="background: linear-gradient(135deg, #D9542A, #c13d18); padding: 1.5rem; border-radius: 12px; color: white;">
+                        <div style="background: linear-gradient(135deg, #FF0000, #CC0000); padding: 1.5rem; border-radius: 12px; color: white;">
                             <div style="font-size: 0.875rem; opacity: 0.9;">Total livraisons</div>
                             <div style="font-size: 2.5rem; font-weight: 900; margin: 0.5rem 0;">{{ $stats['livraisons_total'] }}</div>
                         </div>
@@ -129,7 +151,7 @@
                             </div>
                             <div style="background: #FEF3C7; padding: 1rem; border-radius: 8px;">
                                 <div style="font-size: 0.75rem; color: #92400E;">Aujourd'hui</div>
-                                <div style="font-size: 1.5rem; font-weight: 800; color: #F7B801;">{{ $stats['livraisons_jour'] }}</div>
+                                <div style="font-size: 1.5rem; font-weight: 800; color: #CC0000;">{{ $stats['livraisons_jour'] }}</div>
                             </div>
                         </div>
                         
@@ -150,7 +172,7 @@
     <!-- Modal Affecter Entreprises (Multiple) -->
     <div id="affectModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999; align-items: center; justify-content: center;">
         <div style="background: white; border-radius: 16px; padding: 2rem; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;">
-            <h3 style="font-size: 1.5rem; font-weight: 700; color: #3A3A3A; margin-bottom: 0.5rem;">
+            <h3 style="font-size: 1.5rem; font-weight: 700; color: #000000; margin-bottom: 0.5rem;">
                 Gérer les entreprises
             </h3>
             <p style="color: #666; margin-bottom: 1.5rem; font-size: 0.875rem;">
@@ -160,8 +182,8 @@
             <form action="{{ route('admin.livreurs.affect-entreprises', $livreur->id) }}" method="POST">
                 @csrf
                 <div style="margin-bottom: 1.5rem;">
-                    <label style="display: block; font-weight: 600; margin-bottom: 0.75rem; color: #3A3A3A;">
-                        Sélectionnez les entreprises <span style="color: #D9542A;">*</span>
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.75rem; color: #000000;">
+                        Sélectionnez les entreprises <span style="color: #FF0000;">*</span>
                     </label>
                     <div style="max-height: 300px; overflow-y: auto; border: 2px solid #E5E5E5; border-radius: 8px; padding: 1rem;">
                         @foreach($entreprisesDisponibles as $entreprise)
@@ -174,14 +196,14 @@
                                     style="width: 18px; height: 18px; cursor: pointer;"
                                 >
                                 <div style="flex: 1;">
-                                    <div style="font-weight: 600; color: #3A3A3A;">{{ $entreprise->nom }}</div>
+                                    <div style="font-weight: 600; color: #000000;">{{ $entreprise->nom }}</div>
                                     <div style="font-size: 0.75rem; color: #666;">{{ $entreprise->ville }}, {{ $entreprise->pays }}</div>
                                 </div>
                             </label>
                         @endforeach
                     </div>
-                    <small style="color: #666; font-size: 0.75rem; margin-top: 0.5rem; display: block;">
-                        ✓ Cochez une ou plusieurs entreprises
+                    <small style="color: #666; font-size: 0.75rem; margin-top: 0.5rem; display: flex; align-items: center; gap: 0.25rem;">
+                        @include('admin.partials.icon', ['name' => 'check', 'size' => 12]) Cochez une ou plusieurs entreprises
                     </small>
                 </div>
 

@@ -12,7 +12,7 @@
             </svg>
             Retour aux commandes
         </a>
-        <h2 style="font-size: 1.5rem; font-weight: 700; color: #3A3A3A;">Commande {{ $commande->ref }}</h2>
+        <h2 style="font-size: 1.5rem; font-weight: 700; color: #000000;">Commande {{ $commande->ref }}</h2>
         <p style="color: #666; margin-top: 0.25rem;">Créée le {{ $commande->created_at->format('d/m/Y à H:i') }}</p>
     </div>
 
@@ -27,7 +27,7 @@
         <div>
             <!-- Statuts -->
             <div class="card" style="margin-bottom: 1.5rem;">
-                <h3 style="font-size: 1.125rem; font-weight: 700; color: #3A3A3A; margin-bottom: 1.5rem;">Statuts de la commande</h3>
+                <h3 style="font-size: 1.125rem; font-weight: 700; color: #000000; margin-bottom: 1.5rem;">Statuts de la commande</h3>
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
                     <div>
                         <label style="display: block; margin-bottom: 0.5rem; font-size: 0.875rem; color: #666;">Statut commande</label>
@@ -69,7 +69,7 @@
 
             <!-- Articles -->
             <div class="card" style="margin-bottom: 1.5rem;">
-                <h3 style="font-size: 1.125rem; font-weight: 700; color: #3A3A3A; margin-bottom: 1.5rem;">Articles commandés</h3>
+                <h3 style="font-size: 1.125rem; font-weight: 700; color: #000000; margin-bottom: 1.5rem;">Articles commandés</h3>
                 <div class="table-container">
                     <table>
                         <thead>
@@ -111,7 +111,7 @@
                             @endforeach
                             <tr style="background: #F9FAFB;">
                                 <td colspan="4" style="text-align: right; font-weight: 600;">Total commande:</td>
-                                <td style="text-align: right; font-weight: 700; color: #D9542A; font-size: 1.125rem;">
+                                <td style="text-align: right; font-weight: 700; color: #FF0000; font-size: 1.125rem;">
                                     {{ number_format($commande->montant_total, 0, ',', ' ') }} FCFA
                                 </td>
                             </tr>
@@ -122,7 +122,7 @@
 
             <!-- Consignes -->
             <div class="card">
-                <h3 style="font-size: 1.125rem; font-weight: 700; color: #3A3A3A; margin-bottom: 1.5rem;">Consignes</h3>
+                <h3 style="font-size: 1.125rem; font-weight: 700; color: #000000; margin-bottom: 1.5rem;">Consignes</h3>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                     <div>
                         <label style="display: block; margin-bottom: 0.5rem; font-size: 0.875rem; color: #666;">Pour le cuisinier</label>
@@ -144,16 +144,16 @@
         <div>
             <!-- Client -->
             <div class="card" style="margin-bottom: 1.5rem;">
-                <h3 style="font-size: 1.125rem; font-weight: 700; color: #3A3A3A; margin-bottom: 1rem;">Client</h3>
+                <h3 style="font-size: 1.125rem; font-weight: 700; color: #000000; margin-bottom: 1rem;">Client</h3>
                 <div style="display: grid; gap: 0.75rem;">
                     <div style="display: flex; gap: 0.5rem; align-items: center;">
-                        <svg style="width: 16px; height: 16px; color: #D9542A;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg style="width: 16px; height: 16px; color: #FF0000;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                         </svg>
                         <strong>{{ $commande->employe->name ?? 'N/A' }}</strong>
                     </div>
                     <div style="display: flex; gap: 0.5rem; align-items: center;">
-                        <svg style="width: 16px; height: 16px; color: #F7B801;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg style="width: 16px; height: 16px; color: #CC0000;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                         </svg>
                         <span style="font-size: 0.875rem; color: #666;">{{ $commande->employe->email ?? 'N/A' }}</span>
@@ -166,7 +166,7 @@
                     </div>
                     @if($commande->employe && $commande->employe->entreprise)
                     <div style="display: flex; gap: 0.5rem; align-items: center;">
-                        <svg style="width: 16px; height: 16px; color: #3A3A3A;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg style="width: 16px; height: 16px; color: #000000;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                         </svg>
                         <span style="font-size: 0.875rem; color: #666;">{{ $commande->employe->entreprise->nom }}</span>
@@ -177,7 +177,7 @@
 
             <!-- Livraison -->
             <div class="card" style="margin-bottom: 1.5rem;">
-                <h3 style="font-size: 1.125rem; font-weight: 700; color: #3A3A3A; margin-bottom: 1rem;">Livraison</h3>
+                <h3 style="font-size: 1.125rem; font-weight: 700; color: #000000; margin-bottom: 1rem;">Livraison</h3>
                 @if($commande->livraison && $commande->livraison->livreur)
                     <div style="margin-bottom: 1rem;">
                         <label style="display: block; margin-bottom: 0.5rem; font-size: 0.875rem; color: #666;">Livreur assigné</label>
@@ -185,13 +185,14 @@
                         <div style="font-size: 0.875rem; color: #999;">{{ $commande->livraison->livreur->telephone }}</div>
                     </div>
                     @if($commande->livraison->heure_assignation)
-                    <div style="font-size: 0.875rem; color: #666; margin-bottom: 0.5rem;">
-                        ⏰ Assignée: {{ $commande->livraison->heure_assignation->format('d/m/Y H:i') }}
+                    <div style="font-size: 0.875rem; color: #666; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.375rem;">
+                        @include('admin.partials.icon', ['name' => 'clock', 'size' => 14])
+                        Assignée: {{ $commande->livraison->heure_assignation->format('d/m/Y H:i') }}
                     </div>
                     @endif
                 @else
                     <p style="color: #999; margin-bottom: 1rem;">Aucun livreur assigné</p>
-                    <button onclick="showAffecterModal()" style="width: 100%; padding: 0.75rem; background: #D9542A; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
+                    <button onclick="showAffecterModal()" style="width: 100%; padding: 0.75rem; background: #FF0000; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
                         Affecter un livreur
                     </button>
                 @endif
@@ -215,7 +216,7 @@
 
             <!-- Paiement -->
             <div class="card">
-                <h3 style="font-size: 1.125rem; font-weight: 700; color: #3A3A3A; margin-bottom: 1rem;">Paiement</h3>
+                <h3 style="font-size: 1.125rem; font-weight: 700; color: #000000; margin-bottom: 1rem;">Paiement</h3>
                 <div style="margin-bottom: 1rem;">
                     <label style="display: block; margin-bottom: 0.5rem; font-size: 0.875rem; color: #666;">Statut</label>
                     @php
@@ -237,7 +238,7 @@
                 @endif
                 <div style="padding-top: 1rem; border-top: 1px solid #E5E5E5;">
                     <label style="display: block; margin-bottom: 0.5rem; font-size: 0.875rem; color: #666;">Montant total</label>
-                    <div style="font-size: 1.5rem; font-weight: 700; color: #D9542A;">{{ number_format($commande->montant_total, 0, ',', ' ') }} FCFA</div>
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #FF0000;">{{ number_format($commande->montant_total, 0, ',', ' ') }} FCFA</div>
                 </div>
             </div>
         </div>
@@ -247,11 +248,11 @@
     @if(!$commande->livraison || !$commande->livraison->livreur)
     <div id="affecterModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center;">
         <div style="background: white; border-radius: 12px; padding: 2rem; width: 90%; max-width: 500px;">
-            <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; color: #3A3A3A;">Affecter un livreur</h3>
+            <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; color: #000000;">Affecter un livreur</h3>
             <form method="POST" action="{{ route('admin.commandes.affecter-livreur', $commande->id) }}">
                 @csrf
                 <div style="margin-bottom: 1rem;">
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #3A3A3A;">Sélectionner un livreur</label>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #000000;">Sélectionner un livreur</label>
                     <select name="livreur_id" required style="width: 100%; padding: 0.75rem; border: 2px solid #E5E5E5; border-radius: 6px;">
                         <option value="">-- Choisir --</option>
                         @foreach($livreurs as $livreur)
@@ -263,7 +264,7 @@
                     <button type="button" onclick="hideAffecterModal()" style="padding: 0.5rem 1rem; background: #F5F5F5; color: #666; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
                         Annuler
                     </button>
-                    <button type="submit" style="padding: 0.5rem 1rem; background: #D9542A; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
+                    <button type="submit" style="padding: 0.5rem 1rem; background: #FF0000; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
                         Affecter
                     </button>
                 </div>

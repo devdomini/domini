@@ -13,6 +13,10 @@ class Commande extends Model
         'ref',
         'id_employe',
         'montant_total',
+        'is_lunch',
+        'date_livraison',
+        'creneau',
+        'adresse_id',
         'statut_commande',
         'statut_preparation',
         'statut_livraison',
@@ -28,6 +32,8 @@ class Commande extends Model
 
     protected $casts = [
         'montant_total' => 'decimal:2',
+        'is_lunch' => 'boolean',
+        'date_livraison' => 'date',
         'lat' => 'decimal:7',
         'long' => 'decimal:7',
     ];
@@ -50,6 +56,11 @@ class Commande extends Model
     public function paiements()
     {
         return $this->hasMany(Paiement::class, 'commande_id');
+    }
+
+    public function adresse()
+    {
+        return $this->belongsTo(Adresse::class);
     }
 
     // Générer une référence unique

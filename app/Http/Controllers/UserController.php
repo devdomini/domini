@@ -12,9 +12,33 @@ class UserController extends Controller
     /**
      * Afficher la liste des utilisateurs
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::orderBy('created_at', 'desc')->paginate(10);
+        $query = User::query()->orderBy('created_at', 'desc');
+
+        if ($request->filled('role')) {
+            $query->where('role', $request->input('role'));
+        }
+
+        if ($request->filled('is_active')) {
+            $isActive = $request->input('is_active');
+            if ($isActive === '1' || $isActive === 1 || $isActive === true || $isActive === 'true') {
+                $query->where('is_active', true);
+            } elseif ($isActive === '0' || $isActive === 0 || $isActive === false || $isActive === 'false') {
+                $query->where('is_active', false);
+            }
+        }
+
+        if ($request->filled('q')) {
+            $q = trim((string) $request->input('q'));
+            $query->where(function ($sub) use ($q) {
+                $sub->where('name', 'like', "%{$q}%")
+                    ->orWhere('email', 'like', "%{$q}%")
+                    ->orWhere('telephone', 'like', "%{$q}%");
+            });
+        }
+
+        $users = $query->paginate(10)->appends($request->only(['role', 'is_active', 'q']));
         
         return view('admin.users.index', compact('users'));
     }
@@ -37,7 +61,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
             'telephone' => 'nullable|string|max:20',
-            'role' => 'required|in:admin,entreprise,livreur,employe',
+            'role' => 'required|in:admin,entreprise,livreur,employe,commercial',
             'id_entreprise' => 'nullable|integer',
             'num_box' => 'nullable|string|max:50',
         ], [
@@ -81,7 +105,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
             'telephone' => 'nullable|string|max:20',
-            'role' => 'required|in:admin,entreprise,livreur,employe',
+            'role' => 'required|in:admin,entreprise,livreur,employe,commercial',
             'id_entreprise' => 'nullable|integer',
             'num_box' => 'nullable|string|max:50',
         ], [

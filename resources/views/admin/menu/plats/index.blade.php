@@ -37,10 +37,10 @@
     <!-- Header -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
         <div>
-            <a href="{{ route('admin.menu.index') }}" style="color: #D9542A; text-decoration: none; font-weight: 600; margin-bottom: 0.5rem; display: inline-block;">
+            <a href="{{ route('admin.menu.index') }}" style="color: #FF0000; text-decoration: none; font-weight: 600; margin-bottom: 0.5rem; display: inline-block;">
                 ← Retour au menu
             </a>
-            <h2 style="font-size: 1.5rem; font-weight: 700; color: #3A3A3A;">Gestion des Plats</h2>
+            <h2 style="font-size: 1.5rem; font-weight: 700; color: #000000;">Gestion des Plats</h2>
             <p style="color: #666; margin-top: 0.25rem;">{{ $plats->count() }} plat(s) au total</p>
         </div>
         <button onclick="openSidebar('create')" class="btn btn-primary" style="display: flex; align-items: center; gap: 0.5rem;">
@@ -60,7 +60,7 @@
                 @if($plat->image)
                     <img src="{{ asset('storage/' . $plat->image) }}" alt="{{ $plat->nom }}" style="width: 100%; height: 100%; object-fit: cover;">
                 @else
-                    <svg style="width: 80px; height: 80px; color: #D9542A;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg style="width: 80px; height: 80px; color: #FF0000;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                     </svg>
                 @endif
@@ -77,15 +77,27 @@
 
             <!-- Content -->
             <div style="padding: 1.5rem;">
-                <h3 style="font-size: 1.125rem; font-weight: 700; color: #3A3A3A; margin-bottom: 0.5rem;">
+                <h3 style="font-size: 1.125rem; font-weight: 700; color: #000000; margin-bottom: 0.5rem;">
                     {{ $plat->nom }}
                 </h3>
-                <p style="color: #666; font-size: 0.875rem; margin-bottom: 0.5rem;">
-                    <span class="badge" style="background-color: #FDFBF8; color: #D9542A; padding: 0.25rem 0.5rem; font-size: 0.75rem;">
+                <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem; flex-wrap: wrap;">
+                    <span class="badge" style="background-color: #FDFBF8; color: #FF0000; padding: 0.25rem 0.5rem; font-size: 0.75rem;">
                         {{ $plat->categorie->nom }}
                     </span>
-                </p>
-                <div style="font-size: 1.5rem; font-weight: 800; color: #D9542A; margin-bottom: 1rem;">
+                    @php
+                        $qualiteColors = [
+                            'classic' => ['bg' => '#E5E5E5', 'text' => '#000000'],
+                            'pro' => ['bg' => '#3B82F6', 'text' => '#FFFFFF'],
+                            'premium' => ['bg' => '#CC0000', 'text' => '#000000']
+                        ];
+                        $qualite = $plat->qualite ?? 'classic';
+                        $colors = $qualiteColors[$qualite] ?? $qualiteColors['classic'];
+                    @endphp
+                    <span style="background-color: {{ $colors['bg'] }}; color: {{ $colors['text'] }}; padding: 0.25rem 0.5rem; font-size: 0.75rem; border-radius: 4px; font-weight: 600; text-transform: uppercase;">
+                        {{ ucfirst($qualite) }}
+                    </span>
+                </div>
+                <div style="font-size: 1.5rem; font-weight: 800; color: #FF0000; margin-bottom: 1rem;">
                     {{ number_format($plat->prix, 0, ',', ' ') }} FCFA
                 </div>
 
@@ -129,7 +141,7 @@
                     </button>
 
                     <!-- Manage Extras Button -->
-                    <button onclick='openSidebar("extras", {{ $plat->id }}, @json($plat))' class="btn-icon" style="background-color: #3A3A3A;">
+                    <button onclick='openSidebar("extras", {{ $plat->id }}, @json($plat))' class="btn-icon" style="background-color: #000000;">
                         <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                         </svg>
@@ -150,7 +162,7 @@
         </div>
         @empty
         <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: #666;">
-            <svg style="width: 80px; height: 80px; margin: 0 auto 1rem; color: #D9542A; opacity: 0.5;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg style="width: 80px; height: 80px; margin: 0 auto 1rem; color: #FF0000; opacity: 0.5;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
             </svg>
             <p style="font-size: 1.125rem; font-weight: 600; margin-bottom: 0.5rem;">Aucun plat disponible</p>
@@ -167,7 +179,7 @@
         <div style="padding: 2rem;">
             <!-- Header -->
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 2px solid #E5E5E5;">
-                <h3 id="sidebarTitle" style="font-size: 1.5rem; font-weight: 700; color: #3A3A3A;"></h3>
+                <h3 id="sidebarTitle" style="font-size: 1.5rem; font-weight: 700; color: #000000;"></h3>
                 <button onclick="closeSidebar()" style="background: none; border: none; font-size: 2rem; cursor: pointer; color: #666; padding: 0; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">×</button>
             </div>
 
@@ -179,8 +191,8 @@
                 <div style="display: grid; gap: 1.5rem;">
                     <!-- Nom -->
                     <div>
-                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #3A3A3A;">
-                            Nom du plat <span style="color: #D9542A;">*</span>
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #000000;">
+                            Nom du plat <span style="color: #FF0000;">*</span>
                         </label>
                         <input 
                             type="text" 
@@ -194,8 +206,8 @@
 
                     <!-- Catégorie -->
                     <div>
-                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #3A3A3A;">
-                            Catégorie <span style="color: #D9542A;">*</span>
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #000000;">
+                            Catégorie <span style="color: #FF0000;">*</span>
                         </label>
                         <select 
                             name="categorie_id" 
@@ -212,8 +224,8 @@
 
                     <!-- Prix -->
                     <div>
-                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #3A3A3A;">
-                            Prix (FCFA) <span style="color: #D9542A;">*</span>
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #000000;">
+                            Prix (FCFA) <span style="color: #FF0000;">*</span>
                         </label>
                         <input 
                             type="number" 
@@ -229,7 +241,7 @@
 
                     <!-- Image -->
                     <div>
-                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #3A3A3A;">
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #000000;">
                             Image du plat
                         </label>
                         <input 
@@ -244,7 +256,7 @@
 
                     <!-- Détails -->
                     <div>
-                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #3A3A3A;">
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #000000;">
                             Détails / Description
                         </label>
                         <textarea 
@@ -256,18 +268,34 @@
                         ></textarea>
                     </div>
 
+                    <!-- Qualité -->
+                    <div>
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #000000;">
+                            Qualité
+                        </label>
+                        <select 
+                            name="qualite" 
+                            id="platQualite"
+                            style="width: 100%; padding: 0.75rem; border: 2px solid #E5E5E5; border-radius: 8px; font-size: 1rem;"
+                        >
+                            <option value="classic">Classic</option>
+                            <option value="pro">Pro</option>
+                            <option value="premium">Premium</option>
+                        </select>
+                    </div>
+
                     <!-- Disponible -->
                     <div>
                         <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
                             <input type="checkbox" name="est_disponible" value="1" id="platDisponible" checked style="width: 18px; height: 18px;">
-                            <span style="font-weight: 600; color: #3A3A3A;">Plat disponible</span>
+                            <span style="font-weight: 600; color: #000000;">Plat disponible</span>
                         </label>
                     </div>
 
                     <!-- Accompagnements Section -->
                     <div style="border-top: 2px solid #E5E5E5; padding-top: 1.5rem; margin-top: 1.5rem;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                            <h4 style="font-size: 1rem; font-weight: 700; color: #3A3A3A; margin: 0;">Accompagnements</h4>
+                            <h4 style="font-size: 1rem; font-weight: 700; color: #000000; margin: 0;">Accompagnements</h4>
                             <button type="button" onclick="addAccompagnementField()" class="btn btn-secondary" style="padding: 0.5rem 0.75rem; font-size: 0.875rem;">
                                 + Ajouter
                             </button>
@@ -278,7 +306,7 @@
                     <!-- Options Section -->
                     <div style="border-top: 2px solid #E5E5E5; padding-top: 1.5rem; margin-top: 1.5rem;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                            <h4 style="font-size: 1rem; font-weight: 700; color: #3A3A3A; margin: 0;">Options</h4>
+                            <h4 style="font-size: 1rem; font-weight: 700; color: #000000; margin: 0;">Options</h4>
                             <button type="button" onclick="addOptionField()" class="btn btn-secondary" style="padding: 0.5rem 0.75rem; font-size: 0.875rem;">
                                 + Ajouter
                             </button>
@@ -342,7 +370,7 @@
         }
 
         input:checked + .slider {
-            background-color: #D9542A;
+            background-color: #FF0000;
         }
 
         input:checked + .slider:before {
@@ -371,11 +399,11 @@
         }
 
         .btn-icon-warning {
-            background-color: #F7B801;
+            background-color: #CC0000;
         }
 
         .btn-icon-danger {
-            background-color: #C62828;
+            background-color: #CC0000;
         }
 
         .btn-icon:hover {
@@ -434,6 +462,7 @@
                 document.getElementById('platPrix').value = platData.prix;
                 document.getElementById('platDetail').value = platData.detail || '';
                 document.getElementById('platDisponible').checked = platData.est_disponible;
+                document.getElementById('platQualite').value = platData.qualite || 'classic';
                 
                 // Reset containers for edit mode (can add new ones)
                 document.getElementById('accompagnementsContainer').innerHTML = '';
@@ -472,10 +501,10 @@
             const index = accompagnementCount++;
             
             const html = `
-                <div id="accompagnement-${index}" style="background: #F0FDF4; padding: 1rem; border-radius: 8px; margin-bottom: 0.75rem; border: 2px solid #D9542A;">
+                <div id="accompagnement-${index}" style="background: #F0FDF4; padding: 1rem; border-radius: 8px; margin-bottom: 0.75rem; border: 2px solid #FF0000;">
                     <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 0.75rem;">
-                        <h5 style="font-weight: 600; color: #3A3A3A; margin: 0; flex: 1;">Accompagnement #${index + 1}</h5>
-                        <button type="button" onclick="removeAccompagnement(${index})" style="background: #C62828; color: white; border: none; border-radius: 4px; padding: 0.25rem 0.5rem; cursor: pointer; font-size: 0.875rem;">
+                        <h5 style="font-weight: 600; color: #000000; margin: 0; flex: 1;">Accompagnement #${index + 1}</h5>
+                        <button type="button" onclick="removeAccompagnement(${index})" style="background: #CC0000; color: white; border: none; border-radius: 4px; padding: 0.25rem 0.5rem; cursor: pointer; font-size: 0.875rem;">
                             × Retirer
                         </button>
                     </div>
@@ -531,10 +560,10 @@
             const index = optionCount++;
             
             const html = `
-                <div id="option-${index}" style="background: #FEF3C7; padding: 1rem; border-radius: 8px; margin-bottom: 0.75rem; border: 2px solid #F7B801;">
+                <div id="option-${index}" style="background: #FEF3C7; padding: 1rem; border-radius: 8px; margin-bottom: 0.75rem; border: 2px solid #CC0000;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-                        <h5 style="font-weight: 600; color: #3A3A3A; margin: 0; flex: 1;">Option #${index + 1}</h5>
-                        <button type="button" onclick="removeOption(${index})" style="background: #C62828; color: white; border: none; border-radius: 4px; padding: 0.25rem 0.5rem; cursor: pointer; font-size: 0.875rem;">
+                        <h5 style="font-weight: 600; color: #000000; margin: 0; flex: 1;">Option #${index + 1}</h5>
+                        <button type="button" onclick="removeOption(${index})" style="background: #CC0000; color: white; border: none; border-radius: 4px; padding: 0.25rem 0.5rem; cursor: pointer; font-size: 0.875rem;">
                             × Retirer
                         </button>
                     </div>
@@ -593,14 +622,14 @@
             content.innerHTML = `
                 <!-- Accompagnements Section -->
                 <div style="margin-bottom: 2rem;">
-                    <h4 style="font-size: 1.125rem; font-weight: 700; color: #3A3A3A; margin-bottom: 1rem;">
+                    <h4 style="font-size: 1.125rem; font-weight: 700; color: #000000; margin-bottom: 1rem;">
                         Accompagnements (${accompagnements.length})
                     </h4>
                     
                     ${accompagnements.map(acc => `
                         <div style="background: #FDFBF8; padding: 1rem; border-radius: 8px; margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center;">
                             <div>
-                                <div style="font-weight: 600; color: #3A3A3A;">${acc.nom}</div>
+                                <div style="font-weight: 600; color: #000000;">${acc.nom}</div>
                                 <div style="font-size: 0.875rem; color: #666;">
                                     ${acc.qte_gratuit} gratuit(s) • ${acc.prix_unitaire} FCFA/unité
                                 </div>
@@ -625,14 +654,14 @@
 
                 <!-- Options Section -->
                 <div>
-                    <h4 style="font-size: 1.125rem; font-weight: 700; color: #3A3A3A; margin-bottom: 1rem;">
+                    <h4 style="font-size: 1.125rem; font-weight: 700; color: #000000; margin-bottom: 1rem;">
                         Options (${options.length})
                     </h4>
                     
                     ${options.map(opt => `
                         <div style="background: #FEF3C7; padding: 1rem; border-radius: 8px; margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center;">
                             <div>
-                                <div style="font-weight: 600; color: #3A3A3A;">${opt.nom}</div>
+                                <div style="font-weight: 600; color: #000000;">${opt.nom}</div>
                                 <div style="font-size: 0.875rem; color: #666;">
                                     ${opt.qte_gratuit} gratuit(s) • ${opt.prix_unitaire} FCFA/unité
                                 </div>
@@ -661,7 +690,7 @@
             const formContainer = document.getElementById('addAccompagnementForm');
             formContainer.style.display = 'block';
             formContainer.innerHTML = `
-                <form action="/admin/menu/plats/${platId}/accompagnements" method="POST" enctype="multipart/form-data" style="background: white; border: 2px solid #D9542A; padding: 1.5rem; border-radius: 8px;">
+                <form action="/admin/menu/plats/${platId}/accompagnements" method="POST" enctype="multipart/form-data" style="background: white; border: 2px solid #FF0000; padding: 1.5rem; border-radius: 8px;">
                     @csrf
                     <div style="display: grid; gap: 1rem;">
                         <input type="text" name="nom" placeholder="Nom de l'accompagnement" required style="width: 100%; padding: 0.75rem; border: 2px solid #E5E5E5; border-radius: 8px;">
@@ -684,7 +713,7 @@
             const formContainer = document.getElementById('addOptionForm');
             formContainer.style.display = 'block';
             formContainer.innerHTML = `
-                <form action="/admin/menu/plats/${platId}/options" method="POST" enctype="multipart/form-data" style="background: white; border: 2px solid #F7B801; padding: 1.5rem; border-radius: 8px;">
+                <form action="/admin/menu/plats/${platId}/options" method="POST" enctype="multipart/form-data" style="background: white; border: 2px solid #CC0000; padding: 1.5rem; border-radius: 8px;">
                     @csrf
                     <div style="display: grid; gap: 1rem;">
                         <input type="text" name="nom" placeholder="Nom de l'option" required style="width: 100%; padding: 0.75rem; border: 2px solid #E5E5E5; border-radius: 8px;">
